@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/design-system-1a266e44-7ce8-47b0-9885-e2f5793bcb72/tokens/tokens.css">
+<link rel="stylesheet" href="_ds/design-system-1a266e44-7ce8-47b0-9885-e2f5793bcb72/fonts/fonts.css">
+<link rel="stylesheet" href="_ds/design-system-1a266e44-7ce8-47b0-9885-e2f5793bcb72/styles.css">
+<script src="_ds/design-system-1a266e44-7ce8-47b0-9885-e2f5793bcb72/_ds_bundle.js"></script>
+<style>
+html,body{margin:0;padding:0;background:#f9f4f4;font-family:"Graphik LCG",sans-serif;color:#212223}
+a{color:#212223}a:hover{color:#d6006d}
+</style>
+</helmet>
+<x-import component-from-global-scope="AsyaWebDesign.AsyaThemeProvider" hint-size="100%,100vh">
+<div style="min-height:100vh;box-sizing:border-box;padding:40px;display:flex;flex-direction:column;gap:40px;background:var(--semantic-colors-backgrounds-bg-main);font-family:'Graphik LCG',sans-serif;color:var(--semantic-colors-foregrounds-foreground-main)">
+
+  <div style="display:flex;flex-direction:column;gap:8px;max-width:720px">
+    <div style="font-size:28px;line-height:34px;font-weight:600">Snackbar</div>
+    <div style="font-size:14px;line-height:20px;color:var(--semantic-colors-foregrounds-foreground-secondary);text-wrap:pretty">Временное уведомление поверх интерфейса. Появляется в правом нижнем углу, скрывается само через 6 секунд или по крестику.</div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:16px">
+    <div style="font-size:16px;line-height:20px;font-weight:600">Playground</div>
+    <div style="display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start">
+      <div style="width:400px;max-width:100%;min-height:180px;display:flex;align-items:center;justify-content:center;padding:32px;border-radius:16px;background:var(--semantic-colors-backgrounds-bg-surface-level-2)">
+        <div style="width:400px;max-width:100%;box-sizing:border-box;display:flex;gap:12px;align-items:flex-start;padding:16px;border-radius:12px;background:var(--semantic-colors-backgrounds-bg-dark);color:var(--semantic-colors-foregrounds-foreground-inverse);box-shadow:0 8px 24px var(--semantic-colors-shadow-shadow-color-shadow-300)">
+          <sc-if value="{{ pg.icon }}" hint-placeholder-val="{{ true }}"><div style="flex:none;width:24px;height:24px;display:flex;margin-top:-2px">{{ pg.iconEl }}</div></sc-if>
+          <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <div style="font-size:16px;line-height:20px;font-weight:600;text-wrap:pretty">{{ pg.title }}</div>
+              <sc-if value="{{ pg.text }}" hint-placeholder-val="{{ true }}"><div style="font-size:14px;line-height:20px;color:#c7c7c7;text-wrap:pretty">{{ pg.textVal }}</div></sc-if>
+            </div>
+            <sc-if value="{{ pg.a1 }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <x-import component-from-global-scope="AsyaWebDesign.Button" color="accent" variant="primary" size="s" sx="{{ invSx }}" hint-size="auto,32px">Открыть карточку</x-import>
+                
+              </div>
+            </sc-if>
+          </div>
+          <sc-if value="{{ pg.close }}" hint-placeholder-val="{{ true }}"><div data-close="1" style="flex:none;margin:-8px -8px -8px 0"><x-import component-from-global-scope="AsyaWebDesign.IconButton" aria-label="Закрыть" color="secondary" size="l" sx="{{ wSx }}" hint-size="40px,40px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></x-import></div></sc-if>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;font-size:14px;line-height:20px;color:var(--semantic-colors-foregrounds-foreground-secondary);max-width:320px">
+        <div style="text-wrap:pretty">Параметры меняются в панели Tweaks: Type, Description, Close, Action.</div>
+        <div style="display:flex">
+          <x-import component-from-global-scope="AsyaWebDesign.Button" color="neutral" variant="outline" size="m" onClick="{{ show }}" hint-size="auto,40px">Показать на экране</x-import>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:16px">
+    <div style="font-size:16px;line-height:20px;font-weight:600">Type</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(400px,400px));gap:24px">
+      <sc-for list="{{ types }}" as="t" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="font-size:12px;line-height:16px;color:var(--semantic-colors-foregrounds-foreground-secondary)">{{ t.label }}</div>
+          <div style="box-sizing:border-box;display:flex;gap:12px;align-items:flex-start;padding:16px;border-radius:12px;background:var(--semantic-colors-backgrounds-bg-dark);color:var(--semantic-colors-foregrounds-foreground-inverse);box-shadow:0 8px 24px var(--semantic-colors-shadow-shadow-color-shadow-300)">
+            <sc-if value="{{ t.icon }}" hint-placeholder-val="{{ true }}"><div style="flex:none;width:24px;height:24px;display:flex;margin-top:-2px">{{ t.iconEl }}</div></sc-if>
+            <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px">
+              <div style="font-size:16px;line-height:20px;font-weight:600;text-wrap:pretty">{{ t.title }}</div>
+              <div style="font-size:14px;line-height:20px;color:#c7c7c7;text-wrap:pretty">{{ t.text }}</div>
+            </div>
+            <div data-close="1" style="flex:none;margin:-8px -8px -8px 0"><x-import component-from-global-scope="AsyaWebDesign.IconButton" aria-label="Закрыть" color="secondary" size="l" sx="{{ wSx }}" hint-size="40px,40px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></x-import></div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:16px">
+    <div style="font-size:16px;line-height:20px;font-weight:600">Состав</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(400px,400px));gap:24px;align-items:start">
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="font-size:12px;line-height:16px;color:var(--semantic-colors-foregrounds-foreground-secondary)">Только заголовок</div>
+        <div style="box-sizing:border-box;display:flex;gap:12px;align-items:flex-start;padding:16px;border-radius:12px;background:var(--semantic-colors-backgrounds-bg-dark);color:var(--semantic-colors-foregrounds-foreground-inverse);box-shadow:0 8px 24px var(--semantic-colors-shadow-shadow-color-shadow-300)">
+          <div style="flex:none;width:24px;height:24px;display:flex;margin-top:-2px">{{ icons.success }}</div>
+          <div style="flex:1;min-width:0;font-size:16px;line-height:20px;font-weight:600">Изменения сохранены</div>
+          <div data-close="1" style="flex:none;margin:-8px -8px -8px 0"><x-import component-from-global-scope="AsyaWebDesign.IconButton" aria-label="Закрыть" color="secondary" size="l" sx="{{ wSx }}" hint-size="40px,40px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></x-import></div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="font-size:12px;line-height:16px;color:var(--semantic-colors-foregrounds-foreground-secondary)">Без иконки и крестика</div>
+        <div style="box-sizing:border-box;display:flex;gap:12px;align-items:flex-start;padding:16px;border-radius:12px;background:var(--semantic-colors-backgrounds-bg-dark);color:var(--semantic-colors-foregrounds-foreground-inverse);box-shadow:0 8px 24px var(--semantic-colors-shadow-shadow-color-shadow-300)">
+          <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px">
+            <div style="font-size:16px;line-height:20px;font-weight:600">Пациент сохранен без медкарты</div>
+            <div style="font-size:14px;line-height:20px;color:#c7c7c7;text-wrap:pretty">Медкарту можно создать позже из карточки пациента.</div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="font-size:12px;line-height:16px;color:var(--semantic-colors-foregrounds-foreground-secondary)">Одна кнопка</div>
+        <div style="box-sizing:border-box;display:flex;gap:12px;align-items:flex-start;padding:16px;border-radius:12px;background:var(--semantic-colors-backgrounds-bg-dark);color:var(--semantic-colors-foregrounds-foreground-inverse);box-shadow:0 8px 24px var(--semantic-colors-shadow-shadow-color-shadow-300)">
+          <div style="flex:none;width:24px;height:24px;display:flex;margin-top:-2px">{{ icons.success }}</div>
+          <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <div style="font-size:16px;line-height:20px;font-weight:600">Медкарта № 104 382 создана</div>
+              <div style="font-size:14px;line-height:20px;color:#c7c7c7">Клиника на Невском</div>
+            </div>
+            <div style="display:flex;gap:8px"><x-import component-from-global-scope="AsyaWebDesign.Button" color="accent" variant="primary" size="s" sx="{{ invSx }}" hint-size="auto,32px">Открыть медкарту</x-import></div>
+          </div>
+          <div data-close="1" style="flex:none;margin:-8px -8px -8px 0"><x-import component-from-global-scope="AsyaWebDesign.IconButton" aria-label="Закрыть" color="secondary" size="l" sx="{{ wSx }}" hint-size="40px,40px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></x-import></div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="font-size:12px;line-height:16px;color:var(--semantic-colors-foregrounds-foreground-secondary)">Ошибка с действием</div>
+        <div style="box-sizing:border-box;display:flex;gap:12px;align-items:flex-start;padding:16px;border-radius:12px;background:var(--semantic-colors-backgrounds-bg-dark);color:var(--semantic-colors-foregrounds-foreground-inverse);box-shadow:0 8px 24px var(--semantic-colors-shadow-shadow-color-shadow-300)">
+          <div style="flex:none;width:24px;height:24px;display:flex;margin-top:-2px">{{ icons.error }}</div>
+          <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <div style="font-size:16px;line-height:20px;font-weight:600">Не удалось передать данные в 1С</div>
+              <div style="font-size:14px;line-height:20px;color:#c7c7c7;text-wrap:pretty">Изменения сохранены в МИС. Повторите отправку.</div>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <x-import component-from-global-scope="AsyaWebDesign.Button" color="accent" variant="primary" size="s" sx="{{ invSx }}" hint-size="auto,32px">Повторить</x-import>
+            </div>
+          </div>
+          <div data-close="1" style="flex:none;margin:-8px -8px -8px 0"><x-import component-from-global-scope="AsyaWebDesign.IconButton" aria-label="Закрыть" color="secondary" size="l" sx="{{ wSx }}" hint-size="40px,40px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></x-import></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px;max-width:720px">
+    <div style="font-size:16px;line-height:20px;font-weight:600">Спецификация</div>
+    <div style="display:grid;grid-template-columns:200px minmax(0,1fr);gap:8px 24px;font-size:14px;line-height:20px">
+      <div style="color:var(--semantic-colors-foregrounds-foreground-secondary)">Ширина</div><div>400px фиксированная, на узких экранах 100% − 32px</div>
+      <div style="color:var(--semantic-colors-foregrounds-foreground-secondary)">Отступы</div><div>16px со всех сторон, между иконкой, текстом и крестиком 12px</div>
+      <div style="color:var(--semantic-colors-foregrounds-foreground-secondary)">Заголовок / текст</div><div>16/20 Semibold, foreground-inverse / 14/20 Regular, #c7c7c7, между ними 4px</div>
+      <div style="color:var(--semantic-colors-foregrounds-foreground-secondary)">Кнопки</div><div>Одна кнопка действия: Button Inverse primary (белый фон, текст main), size S, отступ сверху 12px. Крестик: IconButton size S с белой иконкой</div>
+      <div style="color:var(--semantic-colors-foregrounds-foreground-secondary)">Иконка</div><div>Статусная 24px; крестик — IconButton size L, иконка 24px. Статусная иконка 24px, по центру первой строки заголовка, цвета foreground-system-success / warning / error</div>
+      <div style="color:var(--semantic-colors-foregrounds-foreground-secondary)">Фон / тень / радиус</div><div>bg-dark / shadow-300 / 12px</div>
+      <div style="color:var(--semantic-colors-foregrounds-foreground-secondary)">Позиция</div><div>Правый нижний угол, 24px от правого и нижнего края. Одно сообщение за раз, новое заменяет предыдущее</div>
+    </div>
+  </div>
+</div>
+
+<div style="position:fixed;right:24px;bottom:24px;z-index:1600;width:400px;max-width:calc(100% - 32px);transform:translateY({{ liveY }});opacity:{{ liveOpacity }};pointer-events:{{ livePe }};transition:opacity .2s, transform .2s;box-sizing:border-box;display:flex;gap:12px;align-items:flex-start;padding:16px;border-radius:12px;background:var(--semantic-colors-backgrounds-bg-dark);color:var(--semantic-colors-foregrounds-foreground-inverse);box-shadow:0 8px 24px var(--semantic-colors-shadow-shadow-color-shadow-300);font-family:'Graphik LCG',sans-serif">
+  <sc-if value="{{ pg.icon }}" hint-placeholder-val="{{ false }}"><div style="flex:none;width:24px;height:24px;display:flex;margin-top:-2px">{{ pg.iconEl }}</div></sc-if>
+  <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;flex-direction:column;gap:4px">
+      <div style="font-size:16px;line-height:20px;font-weight:600">{{ pg.title }}</div>
+      <sc-if value="{{ pg.text }}" hint-placeholder-val="{{ false }}"><div style="font-size:14px;line-height:20px;color:#c7c7c7">{{ pg.textVal }}</div></sc-if>
+    </div>
+    <sc-if value="{{ pg.a1 }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <x-import component-from-global-scope="AsyaWebDesign.Button" color="accent" variant="primary" size="s" sx="{{ invSx }}" onClick="{{ hide }}" hint-size="auto,32px">Открыть карточку</x-import>
+        
+      </div>
+    </sc-if>
+  </div>
+  <sc-if value="{{ pg.close }}" hint-placeholder-val="{{ false }}"><div data-close="1" style="flex:none;margin:-8px -8px -8px 0"><x-import component-from-global-scope="AsyaWebDesign.IconButton" aria-label="Закрыть" color="secondary" size="l" sx="{{ wSx }}" onClick="{{ hide }}" hint-size="40px,40px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></x-import></div></sc-if>
+</div>
+</x-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;type&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;success&quot;,&quot;warning&quot;,&quot;error&quot;,&quot;none&quot;],&quot;default&quot;:&quot;success&quot;,&quot;tsType&quot;:&quot;'success'|'warning'|'error'|'none'&quot;},&quot;description&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;close&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;action&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">class Component extends DCLogic {
+  state = { live: false };
+  icon(type) {
+    const h = React.createElement;
+    const c = { success: 'var(--semantic-colors-foregrounds-foreground-system-success)', warning: 'var(--semantic-colors-foregrounds-foreground-system-warning)', error: 'var(--semantic-colors-foregrounds-foreground-system-error)' }[type];
+    if (!c) return null;
+    const s = { fill: 'none', stroke: c, strokeWidth: 1.6, strokeLinecap: 'round', strokeLinejoin: 'round' };
+    const parts = type === 'success'
+      ? [h('circle', { key: 1, cx: 10, cy: 10, r: 8.2, ...s }), h('path', { key: 2, d: 'M6.6 10.2l2.3 2.3 4.5-4.6', ...s })]
+      : type === 'warning'
+      ? [h('path', { key: 1, d: 'M8.62 3.3a1.6 1.6 0 012.76 0l6.6 11.4a1.6 1.6 0 01-1.38 2.4H3.4a1.6 1.6 0 01-1.38-2.4l6.6-11.4z', ...s }), h('path', { key: 2, d: 'M10 7.8v3.6', ...s }), h('circle', { key: 3, cx: 10, cy: 14, r: 0.9, fill: c })]
+      : [h('circle', { key: 1, cx: 10, cy: 10, r: 8.2, ...s }), h('path', { key: 2, d: 'M10 6v4.6', ...s }), h('circle', { key: 3, cx: 10, cy: 13.6, r: 0.9, fill: c })];
+    return h('svg', { width: 24, height: 24, viewBox: '0 0 20 20' }, ...parts);
+  }
+  componentWillUnmount() { clearTimeout(this.t); }
+  renderVals() {
+    const p = this.props;
+    const type = p.type ?? 'success';
+    const actions = (p.action ?? true) ? '1' : '0';
+    const T = {
+      success: ['Пациент сохранен', 'Данные переданы в 1С'],
+      warning: ['Найден похожий пациент', 'Проверьте ФИО и дату рождения перед сохранением'],
+      error: ['Не удалось сохранить', 'Нет связи с сервером. Попробуйте еще раз'],
+      none: ['Изменения сохранены', 'Медкарта открыта в соседней вкладке']
+    }[type];
+    const sched = () => { clearTimeout(this.t); this.t = setTimeout(() => this.setState({ live: false }), 6000); };
+    return {
+      pg: { icon: type !== 'none', iconEl: this.icon(type), title: T[0], text: p.description ?? true, textVal: T[1], close: p.close ?? true, a1: actions !== '0', a2: actions === '2' },
+      icons: { success: this.icon('success'), error: this.icon('error') },
+      types: [
+        { label: 'Success', icon: true, iconEl: this.icon('success'), title: 'Пациент сохранен', text: 'Данные переданы в 1С' },
+        { label: 'Warning', icon: true, iconEl: this.icon('warning'), title: 'Найден похожий пациент', text: 'Проверьте ФИО и дату рождения перед сохранением' },
+        { label: 'Error', icon: true, iconEl: this.icon('error'), title: 'Не удалось сохранить', text: 'Нет связи с сервером. Попробуйте еще раз' },
+        { label: 'None (без иконки)', icon: false, iconEl: null, title: 'Изменения сохранены', text: 'Медкарта открыта в соседней вкладке' }
+      ],
+      show: () => { this.setState({ live: true }); sched(); },
+      hide: () => { clearTimeout(this.t); this.setState({ live: false }); },
+      invSx: { background: '#fff !important', color: 'var(--semantic-colors-foregrounds-foreground-main) !important', '&:hover': { background: 'var(--semantic-colors-backgrounds-bg-surface-level-2) !important' }, '&:active': { background: 'var(--semantic-colors-backgrounds-bg-surface-level-3) !important' } },
+      cmp: (() => {
+        const inv = { background: '#fff !important', color: 'var(--semantic-colors-foregrounds-foreground-main) !important', '&:hover': { background: 'var(--semantic-colors-backgrounds-bg-surface-level-2) !important' }, '&:active': { background: 'var(--semantic-colors-backgrounds-bg-surface-level-3) !important' } };
+        const rows = [
+          ['success', 'Медкарта № 104 382 создана', 'Клиника на Невском', 'Открыть медкарту', 'Закрыть'],
+          ['error', 'Не удалось передать данные в 1С', 'Изменения сохранены в МИС. Повторите отправку.', 'Повторить', 'Позже']
+        ];
+        const out = [];
+        rows.forEach(r => [['primary', {}], ['primary', inv]].forEach(([variant, sx]) => out.push({ iconEl: this.icon(r[0]), title: r[1], text: r[2], a1: r[3], a2: r[4], variant, mainSx: sx })));
+        return out;
+      })(),
+      actSx: { background: 'rgba(255,255,255,.12) !important', color: '#fff !important', '& svg': { color: '#fff' }, '&:hover': { background: 'rgba(255,255,255,.18) !important' }, '&:active': { background: 'rgba(255,255,255,.24) !important' } },
+      wSx: { color: '#fff !important', '& svg': { color: '#fff' }, '&:hover': { background: 'rgba(255,255,255,.08) !important' }, '&:active': { background: 'rgba(255,255,255,.14) !important' } },
+      liveOpacity: this.state.live ? 1 : 0,
+      liveY: this.state.live ? '0' : '16px',
+      livePe: this.state.live ? 'auto' : 'none'
+    };
+  }
+}</script>
+</body>
+</html>

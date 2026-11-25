@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/design-system-1a266e44-7ce8-47b0-9885-e2f5793bcb72/fonts/fonts.css">
+<link rel="stylesheet" href="_ds/design-system-1a266e44-7ce8-47b0-9885-e2f5793bcb72/tokens/tokens.css">
+<style>
+html,body{margin:0;padding:0;background:#f9f4f4;font-family:"Graphik LCG",sans-serif;color:#212223;font-size:15px;line-height:1.55}
+a{color:#d6006d;text-decoration:none}a:hover{color:#a80056;text-decoration:underline}
+p{margin:0;text-wrap:pretty}ol,ul{margin:0;padding-left:22px}li{margin:4px 0}
+img{display:block;width:100%;height:auto;border:1px solid #e6dfe0;border-radius:12px;cursor:zoom-in}
+</style>
+</helmet>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#d6006d"></rect><text x="50" y="62" font-family="sans-serif" font-size="34" font-weight="700" fill="#fff" text-anchor="middle">ТЗ</text></svg></template>
+<div style="max-width:960px;margin:0 auto;padding:48px 24px 80px;box-sizing:border-box;display:flex;flex-direction:column;gap:24px">
+
+<div style="background:#fff;border-radius:16px;padding:40px 44px;display:flex;flex-direction:column;gap:16px">
+<div style="font-size:13px;color:#757575">ТЗ по пользовательским сценариям</div>
+<h1 style="font-size:30px;line-height:1.2;margin:0;font-weight:600">Справочник пациентов и создание медкарты</h1>
+<p>Документ описывает основные сценарии и ошибки прототипа «Справочник пациентов». Каждый сценарий можно повторить в прототипе: выполните предусловия, пройдите шаги и сравните результат со скриншотом.</p>
+<div style="background:#f3eced;border-radius:12px;padding:16px 20px;display:flex;flex-direction:column;gap:8px">
+<p><b>Перед началом</b></p>
+<ul>
+<li>Откройте прототип. По умолчанию роль «Администратор»: фильтры Москва · Мичуринский, список построен.</li><li>В хедере слева логотип клиники: по клику он возвращает в справочник. Справа меню приложений, уведомления и профиль пользователя.</li>
+<li>Слева внизу кнопка <b>«Демо-настройки»</b>: роль, симуляция ошибок и тестовые сценарии создания (видны на экране создания пациента).</li>
+<li>Данные в прототипе тестовые. Чтобы вернуться в исходное состояние, обновите страницу.</li>
+</ul>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px">
+<div style="display:flex;flex-direction:column;gap:4px">
+<p style="font-weight:600">Основные сценарии</p>
+<a href="#s01">С-01 Просмотр списка пациентов</a>
+<a href="#s02">С-02 Формирование списка по фильтрам</a>
+<a href="#s03">С-03 Поиск пациента</a>
+<a href="#s04">С-04 Просмотр данных пациента</a>
+<a href="#s05">С-05 Создание медкарты существующему пациенту</a>
+<a href="#s06">С-06 Создание нового пациента</a>
+<a href="#s07">С-07 Найдены похожие пациенты</a>
+<a href="#s08">С-08 Выбор существующего пациента</a>
+<a href="#s09">С-09 Полное совпадение</a>
+<a href="#s10">С-10 Совпали документы</a>
+<a href="#s11">С-11 Данные изменились после проверки</a>
+<a href="#s12">С-12 Документ, удостоверяющий личность</a>
+<a href="#s13">С-13 Отметка «Договор не подписан»</a>
+<a href="#s14">С-14 Полная форма пациента</a>
+<a href="#s15">С-15 Ссылка на пациента</a>
+</div>
+<div style="display:flex;flex-direction:column;gap:4px">
+<p style="font-weight:600">Ошибки и пограничные случаи</p>
+<a href="#e01">О-01 Ошибки заполнения формы</a>
+<a href="#e02">О-02 Пациент не найден</a>
+<a href="#e03">О-03 Короткий поисковый запрос</a>
+<a href="#e04">О-04 Ошибка загрузки списка</a>
+<a href="#e05">О-05 Ошибка поиска</a>
+<a href="#e06">О-06 Ошибка проверки пациента</a>
+<a href="#e07">О-07 Медкарту уже создал другой сотрудник</a>
+<a href="#e08">О-08 Выход без сохранения</a>
+</div>
+</div>
+</div>
+
+<h2 style="font-size:24px;margin:16px 0 0;font-weight:600">Основные сценарии</h2>
+
+<div id="s01" style="background:#fff;border-radius:16px;padding:32px 36px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;align-items:center;gap:12px"><span style="background:#d6006d;color:#fff;font-size:13px;font-weight:600;padding:3px 10px;border-radius:8px">С-01</span><h3 style="margin:0;font-size:20px;font-weight:600">Просмотр списка пациентов</h3></div>
+<p><b>Предусловия:</b> роль «Администратор».</p>
+<div><p style="font-weight:600;margin-bottom:4px">Шаги</p><ol><li>Откройте прототип.</li><li>Прокрутите таблицу вниз.</li></ol></div>
+<div><p style="font-weight:600;margin-bottom:4px">Ожидаемый результат</p><ul><li>В фильтрах выбраны Москва и Мичуринский, список построен.</li><li>Над таблицей поиск, кнопка «Добавить пациента» и счетчик «Пациенты (N)».</li><li>Колонки: ФИО, Дата рождения, Телефон, Медкарты.</li><li>Медкарта всегда указана как «Город · Организация (№ N)», даже если в фильтрах выбрана одна организация. Номер карты серый, название — основным цветом.</li><li>При прокрутке список подгружается порциями по 40 («Загружаем еще…»).</li></ul></div>
+<img src="spec/shots/01-g.jpg" alt="Список пациентов">
+</div>
+
+<div id="s02" style="background:#fff;border-radius:16px;padding:32px 36px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;align-items:center;gap:12px"><span style="background:#d6006d;color:#fff;font-size:13px;font-weight:600;padding:3px 10px;border-radius:8px">С-02</span><h3 style="margin:0;font-size:20px;font-weight:600">Формирование списка по фильтрам</h3></div>
+<p><b>Предусловия:</b> в «Демо-настройках» роль «Руководитель».</p>
+<div><p style="font-weight:600;margin-bottom:4px">Шаги</p><ol><li>Убедитесь, что фильтры пустые, а справа заглушка «Список пациентов не сформирован».</li><li>Выберите город «Москва».</li><li>Нажмите «Сформировать».</li><li>Выберите организацию и снова нажмите «Сформировать».</li><li>Нажмите «Сбросить фильтры».</li></ol></div>
+<div><p style="font-weight:600;margin-bottom:4px">Ожидаемый результат</p><ul><li>Пока город не выбран, поле «Организация» неактивно, список не строится.</li><li>Кнопка «Сформировать» появляется только после изменения фильтров и исчезает после построения списка.</li><li>Формат медкарт не зависит от фильтров: «Город · Организация (№ N)». Без организации видны карты во всех доступных организациях города, с организацией — только в выбранной.</li><li>«Сбросить фильтры» видна, когда фильтры отличаются от исходных, и возвращает их.</li><li>Для роли «Филиал» (Белгород, одна клиника) поля «Организация» нет.</li></ul></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px"><img src="spec/shots/02-g.jpg" alt="Список не сформирован"><img src="spec/shots/03-g.jpg" alt="Фильтры изменены"></div>
+</div>
+
+<div id="s03" style="background:#fff;border-radius:16px;padding:32px 36px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;align-items:center;gap:12px"><span style="background:#d6006d;color:#fff;font-size:13px;font-weight:600;padding:3px 10px;border-radius:8px">С-03</span><h3 style="margin:0;font-size:20px;font-weight:600">Поиск пациента</h3></div>
+<p><b>Предусловия:</b> роль «Администратор», список построен.</p>
+<div><p style="font-weight:600;margin-bottom:4px">Шаги</p><ol><li>Введите в поиск «Тестов».</li><li>Дождитесь результатов.</li><li>Нажмите крестик в поле поиска.</li></ol></div>
+<div><p style="font-weight:600;margin-bottom:4px">Ожидаемый результат</p><ul><li>Во время поиска справа подпись «Ищем в текущем списке и в сети клиник…».</li><li>Найденные в текущем списке показаны в основной таблице, счетчик «Пациенты (N)» показывает их число.</li><li>Ниже блок «Найдены в сети клиник (N)»: пациенты без медкарты в выбранной области. Медкарты указаны как «Город · Организация (№ N)», в строке кнопка «Создать медкарту».</li><li>Если карт больше двух, видна ссылка «Еще N карт», она открывает правую панель.</li><li>После очистки поиска возвращается полный список.</li></ul></div>
+<img src="spec/shots/04-g.jpg" alt="Результаты поиска">
+</div>
+
+<div id="s04" style="background:#fff;border-radius:16px;padding:32px 36px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;align-items:center;gap:12px"><span style="background:#d6006d;color:#fff;font-size:13px;font-weight:600;padding:3px 10px;border-radius:8px">С-04</span><h3 style="margin:0;font-size:20px;font-weight:600">Просмотр данных пациента</h3></div>
+<p><b>Предусловия:</b> список построен.</p>
+<div><p style="font-weight:600;margin-bottom:4px">Шаги</p><ol><li>Нажмите на строку пациента.</li><li>Нажмите на строку другого пациента.</li><li>Нажмите на ту же строку еще раз. Повторите с клавишей Esc и с крестиком.</li><li>Найдите пациента из блока «Найдены в сети клиник» и откройте его.</li></ol></div>
+<div><p style="font-weight:600;margin-bottom:4px">Ожидаемый результат</p><ul><li>Справа открывается панель: ФИО, дата рождения и возраст, контактные данные, общая информация, документы, «Медицинские карты (N)». Пустые поля — прочерк.</li><li>В разделе «Документы» подзаголовок — вид документа пациента («Паспорт», «Водительское удостоверение»), под ним серия, номер, дата выдачи, код подразделения, «Кем выдан» и «Запись о паспортных данных действует с».</li><li>Медкарта в панели: «Город · Организация (№ N)», справа флаг «Договор не подписан» (см. С-13).</li><li>Внизу панели кнопка «Перейти к полной форме» (см. С-14).</li><li>Выбранная строка подсвечена. Клик по другому пациенту меняет данные в открытой панели.</li><li>Панель закрывается повторным кликом по строке, клавишей Esc или крестиком.</li><li>У пациента из сети вверху желтый алерт «Нет медкарты в выбранной области».</li><li>Кнопка «Создать медкарту» неактивна, если у пациента карты во всех доступных организациях.</li></ul></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px"><img src="spec/shots/07-g.jpg" alt="Панель пациента"><img src="spec/shots/08-g.jpg" alt="Пациент из сети"></div>
+</div>
+
+<div id="s05" style="background:#fff;border-radius:16px;padding:32px 36px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;align-items:center;gap:12px"><span style="background:#d6006d;color:#fff;font-size:13px;font-weight:600;padding:3px 10px;border-radius:8px">С-05</span><h3 style="margin:0;font-size:20px;font-weight:600">Создание медкарты существующему пациенту</h3></div>
+<p><b>Предусловия:</b> в фильтрах выбрана только Москва, открыта панель пациента со свободными организациями.</p>
+<div><p style="font-weight:600;margin-bottom:4px">Шаги</p><ol><li>В панели нажмите «Создать медкарту».</li><li>Откройте список «Организация».</li><li>Выберите свободную организацию и нажмите «Создать медкарту».</li></ol></div>
+<div><p style="font-weight:600;margin-bottom:4px">Ожидаемый результат</p><ul><li>Открывается модалка «Создание медкарты»: «Пациент: ФИО», город подставлен из фильтров.</li><li>Организации, где у пациента уже есть карта, неактивны: «Мичуринский (медкарта № …)», при наведении подсказка.</li><li>Кнопка «Создать медкарту» активна, когда выбраны город и свободная организация. Во время создания — спиннер.</li><li>После создания — сообщение «Медкарта № N создана · Организация», карта появляется в панели.</li><li>Если все организации города заняты — желтый алерт «У пациента уже есть медкарта в этом городе».</li></ul></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px"><img src="spec/shots/09-g.jpg" alt="Модалка создания медкарты"><img src="spec/shots/24-g.jpg" alt="Медкарта создана"></div>
+</div>
+
+<div id="s06" style="background:#fff;border-radius:16px;padding:32px 36px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;align-items:center;gap:12px"><span style="background:#d6006d;color:#fff;font-size:13px;font-weight:600;padding:3px 10px;border-radius:8px">С-06</span><h3 style="margin:0;font-size:20px;font-weight:600">Создание нового пациента</h3></div>
+<p><b>Предусловия:</b> список построен.</p>
+<div><p style="font-weight:600;margin-bottom:4px">Шаги</p><ol><li>Нажмите «Добавить пациента».</li><li>В «Демо-настройках» нажмите «Не найден» (или заполните поля вручную).</li><li>Нажмите «Продолжить».</li><li>На шаге 2 выберите пол и нажмите «Создать пациента».</li><li>В модалке нажмите «Не сейчас» или «Создать медкарту».</li></ol></div>
+<div><p style="font-weight:600;margin-bottom:4px">Ожидаемый результат</p><ul><li>Над формой хлебные крошки «Справочник пациентов › Создание пациента».</li><li>Шаг 1 — «Основные данные»: Фамилия*, Имя*, Отчество, Дата рождения*, Номер телефона*, Email.</li><li>По «Продолжить» идет проверка на дубли. Совпадений нет — открывается шаг 2.</li><li>На шаге 2 сверху сводка шага 1 и ссылка «Изменить». Степпер: шаг 1 с галочкой, линия акцентная.</li><li>В разделе «Документы» — поле «Документ, удостоверяющий личность» (по умолчанию «Паспорт») и поля документа (см. С-12).</li><li>Внизу кнопки «Отмена» и «Создать пациента». Вернуться на шаг 1 можно через степпер или «Изменить».</li><li>«Создать пациента» неактивна, пока не выбран пол.</li><li>После создания открывается справочник с панелью нового пациента и модалка «Создать медкарту?».</li><li>«Не сейчас» — сообщение «Пациент сохранен без медкарты». «Создать медкарту» — модалка из С-05.</li></ul></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px"><img src="spec/shots/10-g.jpg" alt="Шаг 1"><img src="spec/shots/15-g.jpg" alt="Шаг 2, документы"><img src="spec/shots/17-g.jpg" alt="Создать медкарту?"><img src="spec/shots/23-g.jpg" alt="Сохранен без медкарты"></div>
+</div>
+
+<div id="s07" style="background:#fff;border-radius:16px;padding:32px 36px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;align-items:center;gap:12px"><span style="background:#d6006d;color:#fff;font-size:13px;font-weight:600;padding:3px 10px;border-radius:8px">С-07</span><h3 style="margin:0;font-size:20px;font-weight:600">Найдены похожие пациенты</h3></div>
+<p><b>Предусловия:</b> открыт экран создания пациента.</p>
+<div><p style="font-weight:600;margin-bottom:4px">Шаги</p><ol><li>В «Демо-настройках» нажмите «Один похожий» (или «Несколько похожих»).</li><li>Нажмите «Продолжить».</li><li>Нажмите на карточку пациента в списке.</li><li>Нажмите «Продолжить» еще раз.</li></ol></div>
+<div><p style="font-weight:600;margin-bottom:4px">Ожидаемый результат</p><ul><li>Желтый алерт «Найдены похожие пациенты» и список карточек.</li><li>В карточке: ФИО · дата рождения · телефон и строка «Совпадения: …» с совпавшими полями.</li><li>Клик по карточке открывает правую панель с кнопками «Перейти к полной форме» и «Выбрать пациента».</li><li>Повторное «Продолжить» с теми же данными переводит на шаг 2 — создание не блокируется.</li></ul></div>
+<img src="spec/shots/12-g.jpg" alt="Похожие пациенты">
+</div>
+
+<div id="s08" style="background:#fff;border-radius:16px;padding:32px 36px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;align-items:center;gap:12px"><span style="background:#d6006d;color:#fff;font-size:13px;font-weight:600;padding:3px 10px;border-radius:8px">С-08</span><h3 style="margin:0;font-size:20px;font-weight:600">Выбор существующего пациента</h3></div>
+<p><b>Предусловия:</b> выполнены шаги 1–2 сценария С-07 или С-09.</p>
+<div><p style="font-weight:600;margin-bottom:4px">Шаги</p><ol><li>В карточке найденного пациента нажмите «Выбрать пациента».</li></ol></div>
+<div><p style="font-weight:600;margin-bottom:4px">Ожидаемый результат</p><ul><li>Создание нового пациента отменяется, форма очищается.</li><li>Открывается справочник с панелью выбранного пациента.</li><li>Сообщение «Открыт существующий пациент. Новый пациент не создан».</li></ul></div>
+<img src="spec/shots/25-g.jpg" alt="Открыт существующий пациент">
+</div>
+
+<div id="s09" style="background:#fff;border-radius:16px;padding:32px 36px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;align-items:center;gap:12px"><span style="background:#d6006d;color:#fff;font-size:13px;font-weight:600;padding:3px 10px;border-radius:8px">С-09</span><h3 style="margin:0;font-size:20px;font-weight:600">Полное совпадение</h3></div>
+<p><b>Предусловия:</b> открыт экран создания пациента.</p>
+<div><p style="font-weight:600;margin-bottom:4px">Шаги</p><ol><li>В «Демо-настройках» нажмите «Полное совпадение».</li><li>Нажмите «Продолжить».</li></ol></div>
+<div><p style="font-weight:600;margin-bottom:4px">Ожидаемый результат</p><ul><li>Красный алерт «Пациент уже есть в системе», текст «Создать нового пациента нельзя. Выберите пациента из списка или проверьте введенные данные».</li><li>Совпали ФИО, дата рождения и телефон — в карточке «Совпадения: ФИО, дата рождения, телефон».</li><li>Кнопка «Продолжить» неактивна. «Выбрать пациента» — акцентная.</li></ul></div>
+<img src="spec/shots/13-g.jpg" alt="Полное совпадение">
+</div>
+
+<div id="s10" style="background:#fff;border-radius:16px;padding:32px 36px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;align-items:center;gap:12px"><span style="background:#d6006d;color:#fff;font-size:13px;font-weight:600;padding:3px 10px;border-radius:8px">С-10</span><h3 style="margin:0;font-size:20px;font-weight:600">Совпали документы</h3></div>
+<p><b>Предусловия:</b> открыт экран создания пациента. Пример: пациентка сменила фамилию.</p>
+<div><p style="font-weight:600;margin-bottom:4px">Шаги</p><ol><li>В «Демо-настройках» нажмите «Совпали документы».</li><li>Нажмите «Продолжить».</li><li>На шаге 2 нажмите «Создать пациента».</li></ol></div>
+<div><p style="font-weight:600;margin-bottom:4px">Ожидаемый результат</p><ul><li>На шаге 1 совпадений нет — сразу открывается шаг 2.</li><li>После «Создать пациента» — красный алерт «Пациент уже есть в системе» и карточка с совпадениями «имя, отчество, дата рождения, паспорт».</li><li>Создание заблокировано, кнопка «Создать пациента» неактивна.</li></ul></div>
+<img src="spec/shots/16-g.jpg" alt="Совпали документы">
+</div>
+
+<div id="s11" style="background:#fff;border-radius:16px;padding:32px 36px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;align-items:center;gap:12px"><span style="background:#d6006d;color:#fff;font-size:13px;font-weight:600;padding:3px 10px;border-radius:8px">С-11</span><h3 style="margin:0;font-size:20px;font-weight:600">Данные изменились после проверки</h3></div>
+<p><b>Предусловия:</b> выполнены шаги 1–2 сценария С-07.</p>
+<div><p style="font-weight:600;margin-bottom:4px">Шаги</p><ol><li>Измените ФИО, дату рождения или телефон.</li></ol></div>
+<div><p style="font-weight:600;margin-bottom:4px">Ожидаемый результат</p><ul><li>Алерт и список найденных пациентов скрываются. Дополнительных сообщений нет.</li><li>Кнопка «Продолжить» активна, в том числе если до изменения был красный алерт «Пациент уже есть в системе».</li><li>По нажатию «Продолжить» проверка выполняется заново с новыми данными.</li><li>На шаге 2 так же: после изменения данных алерт пропадает, «Создать пациента» снова проверяет пациента.</li></ul></div>
+<img src="spec/shots/14-g.jpg" alt="Данные изменились">
+</div>
+
+<div id="s12" style="background:#fff;border-radius:16px;padding:32px 36px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;align-items:center;gap:12px"><span style="background:#d6006d;color:#fff;font-size:13px;font-weight:600;padding:3px 10px;border-radius:8px">С-12</span><h3 style="margin:0;font-size:20px;font-weight:600">Документ, удостоверяющий личность</h3></div>
+<p><b>Предусловия:</b> открыт шаг 2 создания пациента (например, «Не найден» → «Продолжить»).</p>
+<div><p style="font-weight:600;margin-bottom:4px">Шаги</p><ol><li>В поле «Документ, удостоверяющий личность» выберите «Водительское удостоверение».</li><li>Заполните серию и номер.</li><li>Выберите пол и нажмите «Создать пациента», затем «Не сейчас».</li></ol></div>
+<div><p style="font-weight:600;margin-bottom:4px">Ожидаемый результат</p><ul><li>Варианты в демо: «Паспорт» (по умолчанию) и «Водительское удостоверение». В продукте список больше.</li><li>Набор полей одинаковый для любого вида документа: серия, номер, дата выдачи, код подразделения, «Кем выдан».</li><li>Поле «Запись о паспортных данных действует с» недоступно для ввода. Когда введены серия или номер, в нем автоматически появляется дата ввода данных, подсказка «Заполняется автоматически».</li><li>В панели пациента подзаголовок раздела документа — выбранный вид («Водительское удостоверение»), поле «Запись о паспортных данных действует с» показано в этом разделе.</li><li>При проверке дублей документ совпадает, только если совпадают вид, серия и номер.</li></ul></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px"><img src="spec/shots/15-g.jpg" alt="Документ на шаге 2"><img src="spec/shots/27-g.jpg" alt="Документ в панели пациента"></div>
+</div>
+
+<div id="s13" style="background:#fff;border-radius:16px;padding:32px 36px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;align-items:center;gap:12px"><span style="background:#d6006d;color:#fff;font-size:13px;font-weight:600;padding:3px 10px;border-radius:8px">С-13</span><h3 style="margin:0;font-size:20px;font-weight:600">Отметка «Договор не подписан»</h3></div>
+<p><b>Предусловия:</b> открыта панель пациента, у которого есть медкарты.</p>
+<div><p style="font-weight:600;margin-bottom:4px">Шаги</p><ol><li>В разделе «Медицинские карты» поставьте флаг «Договор не подписан» у одной из карт.</li><li>Снимите флаг.</li></ol></div>
+<div><p style="font-weight:600;margin-bottom:4px">Ожидаемый результат</p><ul><li>Флаг есть у каждой медкарты, справа в строке «Город · Организация (№ N)».</li><li>По умолчанию флаг снят — договор считается подписанным.</li><li>Флаг относится к конкретной медкарте и не влияет на другие карты пациента.</li><li>В прототипе отметка сохраняется до перезагрузки страницы.</li></ul></div>
+<img src="spec/shots/26-g.jpg" alt="Договор не подписан">
+</div>
+
+<div id="s14" style="background:#fff;border-radius:16px;padding:32px 36px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;align-items:center;gap:12px"><span style="background:#d6006d;color:#fff;font-size:13px;font-weight:600;padding:3px 10px;border-radius:8px">С-14</span><h3 style="margin:0;font-size:20px;font-weight:600">Полная форма пациента</h3></div>
+<p><b>Предусловия:</b> открыта панель пациента (С-04) или панель найденного пациента на экране создания (С-07).</p>
+<div><p style="font-weight:600;margin-bottom:4px">Шаги</p><ol><li>В панели нажмите «Перейти к полной форме».</li><li>Переключите вкладки.</li><li>Нажмите «Закрыть». Повторите с кнопкой «Назад» в браузере.</li><li>Откройте полную форму из панели на экране создания пациента и нажмите «Выбрать пациента».</li></ol></div>
+<div><p style="font-weight:600;margin-bottom:4px">Ожидаемый результат</p><ul><li>Полная форма открывается отдельной страницей со своей ссылкой <code>#/patients/&lt;id&gt;</code>. Панель уезжает вправо, форма появляется с легким сдвигом справа налево.</li><li>Карточка шириной 960 px по центру экрана. Сверху хлебные крошки, ФИО, дата рождения и возраст.</li><li>Вкладки: Общая информация (открыта по умолчанию), Медкарты, Договоры, Депозиты, Родственники, Документы.</li><li>«Общая информация»: поля в сетке из 4 колонок. Если поле в строке одно («Адрес по прописке», «Кем выдан», «Запись о паспортных данных действует с»), оно занимает всю ширину.</li><li>«Медкарты»: список «Город · Организация (№ N)» с флагом «Договор не подписан» (см. С-13) и кнопка «Создать медкарту».</li><li>Хлебные крошки зависят от того, откуда открыта форма: из справочника — «Справочник пациентов › ФИО», из создания пациента — «Справочник пациентов › Создание пациента › ФИО». Последняя крошка — текущая страница, не кликается.</li><li>Внизу вторичная кнопка «Закрыть»: возвращает туда, откуда открыли форму, панель пациента снова открыта. Заполненная форма создания сохраняется. «Назад» в браузере работает так же.</li><li>Если форма открыта из создания пациента, справа от «Закрыть» акцентная кнопка «Выбрать пациента» — результат как в С-08.</li><li>Клик по «Справочник пациентов» в крошках из сценария создания при заполненной форме открывает модалку «Выйти без сохранения?» (О-08).</li></ul></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px"><img src="spec/shots/28-g.jpg" alt="Полная форма из справочника"><img src="spec/shots/29-g.jpg" alt="Полная форма из создания пациента"></div>
+</div>
+
+<div id="s15" style="background:#fff;border-radius:16px;padding:32px 36px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;align-items:center;gap:12px"><span style="background:#d6006d;color:#fff;font-size:13px;font-weight:600;padding:3px 10px;border-radius:8px">С-15</span><h3 style="margin:0;font-size:20px;font-weight:600">Ссылка на пациента</h3></div>
+<p><b>Предусловия:</b> открыта полная форма пациента (С-14).</p>
+<div><p style="font-weight:600;margin-bottom:4px">Шаги</p><ol><li>Скопируйте ссылку из адресной строки браузера.</li><li>Откройте ссылку в новой вкладке (так ее откроет коллега).</li><li>Нажмите «Закрыть».</li></ol></div>
+<div><p style="font-weight:600;margin-bottom:4px">Ожидаемый результат</p><ul><li>Ссылка ведет только на пациента. Контекст создания и заполненная форма в нее не попадают — они остаются только во вкладке автора.</li><li>У получателя форма всегда открывается как из справочника: крошки «Справочник пациентов › ФИО», кнопки «Выбрать пациента» нет.</li><li>«Закрыть» и «Назад» ведут в справочник с открытой панелью пациента.</li><li>Данные загружаются при каждом открытии ссылки: получатель видит актуальное состояние пациента, включая изменения после отправки ссылки.</li></ul></div>
+</div>
+
+<h2 style="font-size:24px;margin:16px 0 0;font-weight:600">Ошибки и пограничные случаи</h2>
+
+<div id="e01" style="background:#fff;border-radius:16px;padding:32px 36px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;align-items:center;gap:12px"><span style="background:#212223;color:#fff;font-size:13px;font-weight:600;padding:3px 10px;border-radius:8px">О-01</span><h3 style="margin:0;font-size:20px;font-weight:600">Ошибки заполнения формы</h3></div>
+<p><b>Предусловия:</b> открыт экран создания пациента, поля пустые.</p>
+<div><p style="font-weight:600;margin-bottom:4px">Шаги</p><ol><li>Нажмите «Продолжить».</li><li>Введите в «Фамилию» цифры, в «Телефон» неполный номер.</li></ol></div>
+<div><p style="font-weight:600;margin-bottom:4px">Ожидаемый результат</p><ul><li>Обязательные поля подсвечены: «Укажите фамилию», «Укажите имя», «Укажите дату рождения», «Укажите номер телефона».</li><li>Сообщение «Проверьте заполнение полей», проверка не запускается.</li><li>«Только буквы, пробел и дефис», «Введите номер полностью».</li><li>Ошибки шага 2 показываются после нажатия «Создать пациента».</li></ul></div>
+<img src="spec/shots/11-g.jpg" alt="Ошибки формы">
+</div>
+
+<div id="e02" style="background:#fff;border-radius:16px;padding:32px 36px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;align-items:center;gap:12px"><span style="background:#212223;color:#fff;font-size:13px;font-weight:600;padding:3px 10px;border-radius:8px">О-02</span><h3 style="margin:0;font-size:20px;font-weight:600">Пациент не найден</h3></div>
+<p><b>Предусловия:</b> список построен.</p>
+<div><p style="font-weight:600;margin-bottom:4px">Шаги</p><ol><li>Введите в поиск «Шершнева».</li><li>Нажмите «Очистить поиск».</li></ol></div>
+<div><p style="font-weight:600;margin-bottom:4px">Ожидаемый результат</p><ul><li>Заголовок «Пациент не найден», текст «Совпадений нет ни в текущем списке, ни в сети клиник. Проверьте запрос.»</li><li>Одна кнопка «Очистить поиск». Создать пациента можно через «Добавить пациента».</li><li>После очистки возвращается полный список.</li></ul></div>
+<img src="spec/shots/05-g.jpg" alt="Пациент не найден">
+</div>
+
+<div id="e03" style="background:#fff;border-radius:16px;padding:32px 36px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;align-items:center;gap:12px"><span style="background:#212223;color:#fff;font-size:13px;font-weight:600;padding:3px 10px;border-radius:8px">О-03</span><h3 style="margin:0;font-size:20px;font-weight:600">Короткий поисковый запрос</h3></div>
+<p><b>Предусловия:</b> список построен.</p>
+<div><p style="font-weight:600;margin-bottom:4px">Шаги</p><ol><li>Введите в поиск «Те» или три цифры телефона.</li></ol></div>
+<div><p style="font-weight:600;margin-bottom:4px">Ожидаемый результат</p><ul><li>Поиск не запускается, список не меняется.</li><li>Справа подсказка «Для поиска введите минимум 3 буквы ФИО или 4 цифры телефона».</li></ul></div>
+<img src="spec/shots/06-g.jpg" alt="Короткий запрос">
+</div>
+
+<div id="e04" style="background:#fff;border-radius:16px;padding:32px 36px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;align-items:center;gap:12px"><span style="background:#212223;color:#fff;font-size:13px;font-weight:600;padding:3px 10px;border-radius:8px">О-04</span><h3 style="margin:0;font-size:20px;font-weight:600">Ошибка загрузки списка</h3></div>
+<p><b>Предусловия:</b> в «Демо-настройках» включен флажок «Ошибка загрузки списка».</p>
+<div><p style="font-weight:600;margin-bottom:4px">Шаги</p><ol><li>Измените фильтры и нажмите «Сформировать».</li><li>Выключите флажок и нажмите «Повторить».</li></ol></div>
+<div><p style="font-weight:600;margin-bottom:4px">Ожидаемый результат</p><ul><li>Заголовок «Не удалось загрузить список пациентов», текст «Произошла ошибка при загрузке. Повторите попытку.», кнопка «Повторить».</li><li>После «Повторить» список загружается.</li></ul></div>
+<img src="spec/shots/18-g.jpg" alt="Ошибка загрузки">
+</div>
+
+<div id="e05" style="background:#fff;border-radius:16px;padding:32px 36px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;align-items:center;gap:12px"><span style="background:#212223;color:#fff;font-size:13px;font-weight:600;padding:3px 10px;border-radius:8px">О-05</span><h3 style="margin:0;font-size:20px;font-weight:600">Ошибка поиска</h3></div>
+<p><b>Предусловия:</b> в «Демо-настройках» включен флажок «Ошибка поиска».</p>
+<div><p style="font-weight:600;margin-bottom:4px">Шаги</p><ol><li>Введите в поиск «Тестов».</li><li>Выключите флажок и нажмите «Повторить».</li></ol></div>
+<div><p style="font-weight:600;margin-bottom:4px">Ожидаемый результат</p><ul><li>Заголовок «Не удалось выполнить поиск», текст «Произошла ошибка. Попробуйте еще раз», кнопка «Повторить».</li><li>После «Повторить» поиск выполняется заново.</li></ul></div>
+<img src="spec/shots/19-g.jpg" alt="Ошибка поиска">
+</div>
+
+<div id="e06" style="background:#fff;border-radius:16px;padding:32px 36px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;align-items:center;gap:12px"><span style="background:#212223;color:#fff;font-size:13px;font-weight:600;padding:3px 10px;border-radius:8px">О-06</span><h3 style="margin:0;font-size:20px;font-weight:600">Ошибка проверки пациента</h3></div>
+<p><b>Предусловия:</b> открыт экран создания пациента, в «Демо-настройках» включен флажок «Ошибка проверки в сети».</p>
+<div><p style="font-weight:600;margin-bottom:4px">Шаги</p><ol><li>Нажмите «Один похожий».</li><li>Нажмите «Продолжить».</li><li>Выключите флажок и нажмите «Повторить».</li></ol></div>
+<div><p style="font-weight:600;margin-bottom:4px">Ожидаемый результат</p><ul><li>Модалка «Не удалось проверить пациента», текст «Проверка не выполнена из-за ошибки соединения. Повторите попытку еще раз».</li><li>Кнопки «Отменить» и «Повторить». «Повторить» запускает проверку текущего шага заново.</li></ul></div>
+<img src="spec/shots/20-g.jpg" alt="Ошибка проверки">
+</div>
+
+<div id="e07" style="background:#fff;border-radius:16px;padding:32px 36px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;align-items:center;gap:12px"><span style="background:#212223;color:#fff;font-size:13px;font-weight:600;padding:3px 10px;border-radius:8px">О-07</span><h3 style="margin:0;font-size:20px;font-weight:600">Медкарту уже создал другой сотрудник</h3></div>
+<p><b>Предусловия:</b> в «Демо-настройках» включен флажок «Медкарту уже создал другой сотрудник».</p>
+<div><p style="font-weight:600;margin-bottom:4px">Шаги</p><ol><li>Выполните шаги сценария С-05.</li></ol></div>
+<div><p style="font-weight:600;margin-bottom:4px">Ожидаемый результат</p><ul><li>Модалка создания закрывается, открывается модалка «Медкарта уже создана»: «Другой сотрудник создал медкарту № N в организации «…» (Город) раньше вас».</li><li>Кнопка «Создать в другой организации» — если у пациента остались свободные организации. «Понятно» закрывает модалку.</li><li>Созданная карта появляется в панели пациента.</li></ul></div>
+<img src="spec/shots/21-g.jpg" alt="Медкарта уже создана">
+</div>
+
+<div id="e08" style="background:#fff;border-radius:16px;padding:32px 36px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;align-items:center;gap:12px"><span style="background:#212223;color:#fff;font-size:13px;font-weight:600;padding:3px 10px;border-radius:8px">О-08</span><h3 style="margin:0;font-size:20px;font-weight:600">Выход без сохранения</h3></div>
+<p><b>Предусловия:</b> открыт экран создания пациента, заполнено хотя бы одно поле.</p>
+<div><p style="font-weight:600;margin-bottom:4px">Шаги</p><ol><li>Нажмите «Отмена» (есть на обоих шагах), «Справочник пациентов» в хлебных крошках (на экране создания или в полной форме, открытой из создания) или логотип в хедере.</li><li>В модалке нажмите «Отмена», затем повторите и нажмите «Выйти».</li></ol></div>
+<div><p style="font-weight:600;margin-bottom:4px">Ожидаемый результат</p><ul><li>Модалка «Выйти без сохранения?», текст «Введенные данные пациента будут потеряны».</li><li>«Отмена» оставляет на форме, «Выйти» возвращает в справочник без сохранения.</li><li>Если форма пустая, выход происходит сразу.</li></ul></div>
+<img src="spec/shots/22-g.jpg" alt="Выход без сохранения">
+</div>
+
+</div>
+<sc-if value="{{ lbOpen }}" hint-placeholder-val="{{ false }}">
+<div onClick="{{ lbClose }}" style="position:fixed;inset:0;z-index:100;background:var(--semantic-colors-overlay-overlay-drawer, rgba(33,34,35,.1));display:flex;align-items:center;justify-content:center;padding:76px 96px 32px;box-sizing:border-box">
+<div onClick="{{ lbStop }}" style="position:relative;display:flex;flex-direction:column;align-items:center;gap:12px;max-width:100%;max-height:100%">
+<button onClick="{{ lbClose }}" aria-label="Закрыть" style="position:absolute;top:-52px;right:0;width:40px;height:40px;border:none;border-radius:50%;background:#fff;color:#212223;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.12)" style-hover="background:#f3eced"><svg width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg></button>
+<img data-lb="1" src="{{ lb.src }}" alt="{{ lb.alt }}" style="width:auto;max-width:100%;max-height:calc(100vh - 150px);border:none;border-radius:12px;cursor:default;box-shadow:0 8px 32px rgba(0,0,0,.18);background:#fff">
+<div style="padding:4px 12px;border-radius:8px;background:#fff;font-size:14px;line-height:20px;color:#212223;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis;box-sizing:border-box">{{ lb.alt }} · {{ lb.pos }}</div>
+</div>
+<button onClick="{{ lbPrev }}" aria-label="Предыдущая" style="position:fixed;left:24px;top:50%;transform:translateY(-50%);width:48px;height:48px;border:none;border-radius:50%;background:#fff;color:#212223;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.12)" style-hover="background:#f3eced"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path></svg></button>
+<button onClick="{{ lbNext }}" aria-label="Следующая" style="position:fixed;right:24px;top:50%;transform:translateY(-50%);width:48px;height:48px;border:none;border-radius:50%;background:#fff;color:#212223;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.12)" style-hover="background:#f3eced"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6z"></path></svg></button>
+</div>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { i: -1, imgs: [] };
+  componentDidMount() {
+    this.onClick = e => {
+      const im = e.target.closest && e.target.closest('img');
+      if (!im || im.dataset.lb) return;
+      const list = [...document.querySelectorAll('img:not([data-lb])')];
+      const i = list.indexOf(im); if (i < 0) return;
+      this.setState({ imgs: list.map(x => ({ src: x.currentSrc || x.src, alt: x.alt })), i });
+      document.body.style.overflow = 'hidden';
+    };
+    this.onKey = e => {
+      if (this.state.i < 0) return;
+      if (e.key === 'Escape') this.close();
+      else if (e.key === 'ArrowRight') { e.preventDefault(); this.step(1); }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); this.step(-1); }
+    };
+    document.addEventListener('click', this.onClick);
+    document.addEventListener('keydown', this.onKey);
+  }
+  componentWillUnmount() { document.removeEventListener('click', this.onClick); document.removeEventListener('keydown', this.onKey); }
+  close() { this.setState({ i: -1 }); document.body.style.overflow = ''; }
+  step(d) { this.setState(s => ({ i: (s.i + d + s.imgs.length) % s.imgs.length })); }
+  renderVals() {
+    const { i, imgs } = this.state, cur = imgs[i] || { src: '', alt: '' };
+    return {
+      lbOpen: i >= 0, lb: { src: cur.src, alt: cur.alt, pos: (i + 1) + ' из ' + imgs.length },
+      lbClose: e => { if (e) e.stopPropagation(); this.close(); }, lbStop: e => e.stopPropagation(),
+      lbPrev: e => { e.stopPropagation(); this.step(-1); }, lbNext: e => { e.stopPropagation(); this.step(1); }
+    };
+  }
+}
+</script>
+</body>
+</html>

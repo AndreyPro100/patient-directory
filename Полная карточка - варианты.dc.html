@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="_ds/design-system-1a266e44-7ce8-47b0-9885-e2f5793bcb72/tokens/tokens.css">
+<link rel="stylesheet" href="_ds/design-system-1a266e44-7ce8-47b0-9885-e2f5793bcb72/fonts/fonts.css">
+<link rel="stylesheet" href="_ds/design-system-1a266e44-7ce8-47b0-9885-e2f5793bcb72/styles.css">
+<script src="_ds/design-system-1a266e44-7ce8-47b0-9885-e2f5793bcb72/_ds_bundle.js"></script>
+<style>
+html,body{margin:0;padding:0;background:#ece6e6;font-family:"Graphik LCG",sans-serif;color:#212223}
+a{color:#212223}a:hover{color:#d6006d}
+</style>
+</helmet>
+<x-import component-from-global-scope="AsyaWebDesign.AsyaThemeProvider" hint-size="100%,100vh"><x-import component-from-global-scope="AsyaWebDesign.AsyaLocalizationProvider" hint-size="100%,100vh">
+<section style="padding:48px;display:flex;flex-direction:column;gap:24px">
+  <div style="display:flex;flex-direction:column;gap:4px">
+    <div style="font-size:24px;line-height:32px;font-weight:600">Полная карточка пациента — раскладка</div>
+    <div style="font-size:14px;line-height:20px;color:var(--semantic-colors-foregrounds-foreground-secondary)">Экран 1440 × 900. Вкладки и разделы кликабельны.</div>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:48px;align-items:flex-start">
+
+    <div id="1a" style="display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;align-items:center;gap:10px"><span style="padding:2px 8px;border-radius:6px;background:var(--semantic-colors-backgrounds-bg-primary-default);color:#fff;font-size:14px;line-height:20px;font-weight:600">1a</span><span style="font-size:16px;line-height:20px;font-weight:600">Узкая карточка по центру, 960 px</span></div>
+      <div data-screen-label="1a Узкая по центру" style="width:1440px;height:900px;display:flex;flex-direction:column;background:var(--semantic-colors-backgrounds-bg-main);border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.08)">
+        <div style="height:60px;flex:none;display:flex;align-items:center;padding:0 16px"><img src="assets/logo-kdf.svg" width="81" height="28" alt="Клиника Фомина" style="display:block"></div>
+        <div style="flex:1;min-height:0;display:flex;flex-direction:column;padding:4px 16px 16px">
+          <div style="width:100%;max-width:960px;margin:0 auto 12px"><x-import component-from-global-scope="AsyaWebDesign.Breadcrumbs" items="{{ crumbs }}" hint-size="100%,20px"></x-import></div>
+          <div style="flex:1;min-height:0;width:100%;max-width:960px;margin:0 auto;display:flex;flex-direction:column;background:var(--semantic-colors-backgrounds-bg-surface-level-1);border-radius:16px;overflow:hidden">
+            <div style="flex:none;padding:24px 24px 0;display:flex;flex-direction:column;gap:4px">
+              <div style="font-size:24px;line-height:32px;font-weight:600">{{ p.fio }}</div>
+              <div style="font-size:14px;line-height:20px;color:var(--semantic-colors-foregrounds-foreground-secondary)">{{ p.sub }}</div>
+            </div>
+            <div style="flex:none;padding:8px 24px 0;border-bottom:1px solid var(--semantic-colors-borders-border-normal-default)">
+              <x-import component-from-global-scope="AsyaWebDesign.Tabs" items="{{ tabs }}" value="{{ a.tab }}" onChange="{{ a.setTab }}" hint-size="100%,44px"></x-import>
+            </div>
+            <div style="flex:1;min-height:0;overflow:auto;padding:20px 24px 24px;display:flex;flex-direction:column;gap:24px">
+              <sc-if value="{{ a.isGeneral }}" hint-placeholder-val="{{ true }}">
+                <sc-for list="{{ p.groups }}" as="g" hint-placeholder-count="3">
+                  <div style="display:flex;flex-direction:column;gap:12px">
+                    <div style="font-size:16px;line-height:20px;font-weight:600">{{ g.title }}</div>
+                    <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px 16px">
+                      <sc-for list="{{ g.fields }}" as="f" hint-placeholder-count="4">
+                        <div style="display:flex;flex-direction:column;gap:2px;min-width:0;grid-column:{{ f.col4 }}">
+                          <div style="font-size:13px;line-height:16px;color:var(--semantic-colors-foregrounds-foreground-secondary)">{{ f.label }}</div>
+                          <div style="font-size:15px;line-height:20px;overflow-wrap:anywhere;text-wrap:pretty">{{ f.value }}</div>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </div>
+                </sc-for>
+              </sc-if>
+              <sc-if value="{{ a.isList }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;flex-direction:column;gap:12px">
+                  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:28px">
+                    <div style="font-size:16px;line-height:20px;font-weight:600">{{ a.sec.title }}</div>
+                    <sc-if value="{{ a.sec.hasAction }}" hint-placeholder-val="{{ false }}"><x-import component-from-global-scope="AsyaWebDesign.Button" color="accent" variant="ghost" size="s" hint-size="150px,28px">{{ a.sec.action }}</x-import></sc-if>
+                  </div>
+                  <div style="display:flex;flex-direction:column">
+                    <sc-for list="{{ a.sec.items }}" as="it" hint-placeholder-count="2">
+                      <div style="display:flex;align-items:center;gap:16px;padding:12px 0;border-bottom:1px solid var(--semantic-colors-borders-border-normal-default)">
+                        <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px">
+                          <span style="font-size:15px;line-height:20px;text-wrap:pretty">{{ it.name }}</span>
+                          <span style="font-size:13px;line-height:16px;color:var(--semantic-colors-foregrounds-foreground-secondary)">{{ it.meta }}</span>
+                        </div>
+                        <sc-if value="{{ it.hasStatus }}" hint-placeholder-val="{{ false }}"><span style="flex:none;padding:2px 8px;border-radius:6px;font-size:13px;line-height:18px;white-space:nowrap;background:{{ it.statusBg }}">{{ it.status }}</span></sc-if>
+                        <sc-if value="{{ it.hasRight }}" hint-placeholder-val="{{ false }}"><span style="flex:none;white-space:nowrap;font-size:15px;line-height:20px;font-weight:500">{{ it.right }}</span></sc-if>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+            </div>
+            <div style="flex:none;padding:12px 24px 16px;border-top:1px solid var(--semantic-colors-borders-border-normal-default);display:flex;justify-content:flex-end;gap:8px">
+              <x-import component-from-global-scope="AsyaWebDesign.Button" color="neutral" variant="secondary" hint-size="100px,40px">Закрыть</x-import>
+              <sc-if value="{{ fromCreate }}" hint-placeholder-val="{{ true }}"><x-import component-from-global-scope="AsyaWebDesign.Button" color="accent" variant="primary" hint-size="170px,40px">Выбрать пациента</x-import></sc-if>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="1b" style="display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;align-items:center;gap:10px"><span style="padding:2px 8px;border-radius:6px;background:var(--semantic-colors-backgrounds-bg-primary-default);color:#fff;font-size:14px;line-height:20px;font-weight:600">1b</span><span style="font-size:16px;line-height:20px;font-weight:600">Две колонки: данные + сводка справа</span></div>
+      <div data-screen-label="1b Две колонки" style="width:1440px;height:900px;display:flex;flex-direction:column;background:var(--semantic-colors-backgrounds-bg-main);border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.08)">
+        <div style="height:60px;flex:none;display:flex;align-items:center;padding:0 16px"><img src="assets/logo-kdf.svg" width="81" height="28" alt="Клиника Фомина" style="display:block"></div>
+        <div style="flex:1;min-height:0;display:flex;flex-direction:column;padding:4px 16px 16px">
+          <div style="width:100%;max-width:1240px;margin:0 auto 12px"><x-import component-from-global-scope="AsyaWebDesign.Breadcrumbs" items="{{ crumbs }}" hint-size="100%,20px"></x-import></div>
+          <div style="flex:1;min-height:0;width:100%;max-width:1240px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:16px">
+            <div style="min-height:0;display:flex;flex-direction:column;background:var(--semantic-colors-backgrounds-bg-surface-level-1);border-radius:16px;overflow:hidden">
+              <div style="flex:none;padding:24px 24px 0;display:flex;flex-direction:column;gap:4px">
+                <div style="font-size:24px;line-height:32px;font-weight:600">{{ p.fio }}</div>
+                <div style="font-size:14px;line-height:20px;color:var(--semantic-colors-foregrounds-foreground-secondary)">{{ p.sub }}</div>
+              </div>
+              <div style="flex:none;padding:8px 24px 0;border-bottom:1px solid var(--semantic-colors-borders-border-normal-default)">
+                <x-import component-from-global-scope="AsyaWebDesign.Tabs" items="{{ tabsB }}" value="{{ b.tab }}" onChange="{{ b.setTab }}" hint-size="100%,44px"></x-import>
+              </div>
+              <div style="flex:1;min-height:0;overflow:auto;padding:20px 24px 24px;display:flex;flex-direction:column;gap:24px">
+                <sc-if value="{{ b.isGeneral }}" hint-placeholder-val="{{ true }}">
+                  <sc-for list="{{ p.groups }}" as="g" hint-placeholder-count="3">
+                    <div style="display:flex;flex-direction:column;gap:12px">
+                      <div style="font-size:16px;line-height:20px;font-weight:600">{{ g.title }}</div>
+                      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 16px">
+                        <sc-for list="{{ g.fields }}" as="f" hint-placeholder-count="3">
+                          <div style="display:flex;flex-direction:column;gap:2px;min-width:0;grid-column:{{ f.col3 }}">
+                            <div style="font-size:13px;line-height:16px;color:var(--semantic-colors-foregrounds-foreground-secondary)">{{ f.label }}</div>
+                            <div style="font-size:15px;line-height:20px;overflow-wrap:anywhere;text-wrap:pretty">{{ f.value }}</div>
+                          </div>
+                        </sc-for>
+                      </div>
+                    </div>
+                  </sc-for>
+                </sc-if>
+                <sc-if value="{{ b.isList }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;flex-direction:column;gap:12px">
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:28px">
+                      <div style="font-size:16px;line-height:20px;font-weight:600">{{ b.sec.title }}</div>
+                      <sc-if value="{{ b.sec.hasAction }}" hint-placeholder-val="{{ false }}"><x-import component-from-global-scope="AsyaWebDesign.Button" color="accent" variant="ghost" size="s" hint-size="150px,28px">{{ b.sec.action }}</x-import></sc-if>
+                    </div>
+                    <div style="display:flex;flex-direction:column">
+                      <sc-for list="{{ b.sec.items }}" as="it" hint-placeholder-count="2">
+                        <div style="display:flex;align-items:center;gap:16px;padding:12px 0;border-bottom:1px solid var(--semantic-colors-borders-border-normal-default)">
+                          <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px">
+                            <span style="font-size:15px;line-height:20px;text-wrap:pretty">{{ it.name }}</span>
+                            <span style="font-size:13px;line-height:16px;color:var(--semantic-colors-foregrounds-foreground-secondary)">{{ it.meta }}</span>
+                          </div>
+                          <sc-if value="{{ it.hasStatus }}" hint-placeholder-val="{{ false }}"><span style="flex:none;padding:2px 8px;border-radius:6px;font-size:13px;line-height:18px;white-space:nowrap;background:{{ it.statusBg }}">{{ it.status }}</span></sc-if>
+                          <sc-if value="{{ it.hasRight }}" hint-placeholder-val="{{ false }}"><span style="flex:none;white-space:nowrap;font-size:15px;line-height:20px;font-weight:500">{{ it.right }}</span></sc-if>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </div>
+                </sc-if>
+              </div>
+              <div style="flex:none;padding:12px 24px 16px;border-top:1px solid var(--semantic-colors-borders-border-normal-default);display:flex;justify-content:flex-end;gap:8px">
+                <x-import component-from-global-scope="AsyaWebDesign.Button" color="neutral" variant="secondary" hint-size="100px,40px">Закрыть</x-import>
+                <sc-if value="{{ fromCreate }}" hint-placeholder-val="{{ true }}"><x-import component-from-global-scope="AsyaWebDesign.Button" color="accent" variant="primary" hint-size="170px,40px">Выбрать пациента</x-import></sc-if>
+              </div>
+            </div>
+            <div style="min-height:0;overflow:auto;display:flex;flex-direction:column;gap:16px">
+              <div style="background:var(--semantic-colors-backgrounds-bg-surface-level-1);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:12px">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:28px">
+                  <div style="font-size:16px;line-height:20px;font-weight:600">Медкарты ({{ p.cardCount }})</div>
+                  <x-import component-from-global-scope="AsyaWebDesign.Button" color="accent" variant="ghost" size="s" hint-size="90px,28px">Создать</x-import>
+                </div>
+                <div style="display:flex;flex-direction:column">
+                  <sc-for list="{{ p.cards }}" as="c" hint-placeholder-count="2">
+                    <div style="display:flex;flex-direction:column;gap:4px;padding:10px 0;border-bottom:1px solid var(--semantic-colors-borders-border-normal-default)">
+                      <span style="font-size:15px;line-height:20px;text-wrap:pretty">{{ c.org }}<span style="color:var(--semantic-colors-foregrounds-foreground-secondary);white-space:nowrap"> (№ {{ c.num }})</span></span>
+                      <div style="display:flex;font-size:14px"><x-import component-from-global-scope="AsyaWebDesign.Checkbox" label="Договор не подписан" checked="{{ c.unsigned }}" onChange="{{ c.toggle }}" hint-size="180px,24px"></x-import></div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="background:var(--semantic-colors-backgrounds-bg-surface-level-1);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:8px">
+                <div style="font-size:16px;line-height:20px;font-weight:600">Сводка</div>
+                <sc-for list="{{ summary }}" as="s" hint-placeholder-count="3">
+                  <div onClick="{{ s.goB }}" style="display:flex;align-items:center;gap:12px;padding:10px 8px;margin:0 -8px;border-radius:8px;cursor:pointer;font-size:15px;line-height:20px" style-hover="background:var(--components-colors-table-bg-table-row-hover)">
+                    <span style="flex:1;min-width:0">{{ s.label }}</span>
+                    <span style="font-weight:500;color:{{ s.color }}">{{ s.value }}</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" style="flex:none;color:var(--semantic-colors-foregrounds-foreground-secondary)"><path fill="currentColor" d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6z"></path></svg>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="1c" style="display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;align-items:center;gap:10px"><span style="padding:2px 8px;border-radius:6px;background:var(--semantic-colors-backgrounds-bg-primary-default);color:#fff;font-size:14px;line-height:20px;font-weight:600">1c</span><span style="font-size:16px;line-height:20px;font-weight:600">Разделы слева, содержимое до 720 px</span></div>
+      <div data-screen-label="1c Разделы слева" style="width:1440px;height:900px;display:flex;flex-direction:column;background:var(--semantic-colors-backgrounds-bg-main);border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.08)">
+        <div style="height:60px;flex:none;display:flex;align-items:center;padding:0 16px"><img src="assets/logo-kdf.svg" width="81" height="28" alt="Клиника Фомина" style="display:block"></div>
+        <div style="flex:1;min-height:0;display:flex;flex-direction:column;padding:4px 16px 16px">
+          <div style="width:100%;max-width:1040px;margin:0 auto 12px"><x-import component-from-global-scope="AsyaWebDesign.Breadcrumbs" items="{{ crumbs }}" hint-size="100%,20px"></x-import></div>
+          <div style="flex:1;min-height:0;width:100%;max-width:1040px;margin:0 auto;display:flex;flex-direction:column;background:var(--semantic-colors-backgrounds-bg-surface-level-1);border-radius:16px;overflow:hidden">
+            <div style="flex:none;padding:24px;display:flex;flex-direction:column;gap:4px;border-bottom:1px solid var(--semantic-colors-borders-border-normal-default)">
+              <div style="font-size:24px;line-height:32px;font-weight:600">{{ p.fio }}</div>
+              <div style="font-size:14px;line-height:20px;color:var(--semantic-colors-foregrounds-foreground-secondary)">{{ p.sub }}</div>
+            </div>
+            <div style="flex:1;min-height:0;display:grid;grid-template-columns:240px minmax(0,1fr)">
+              <div style="border-right:1px solid var(--semantic-colors-borders-border-normal-default);padding:12px;display:flex;flex-direction:column;gap:2px;overflow:auto">
+                <sc-for list="{{ c.nav }}" as="n" hint-placeholder-count="6">
+                  <div onClick="{{ n.go }}" style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px;border-radius:8px;cursor:pointer;font-size:15px;line-height:20px;background:{{ n.bg }};font-weight:{{ n.fw }}" style-hover="background:var(--components-colors-table-bg-table-row-hover)">
+                    <span>{{ n.label }}</span><span style="font-size:13px;color:var(--semantic-colors-foregrounds-foreground-secondary)">{{ n.count }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="min-height:0;overflow:auto;padding:24px 32px">
+                <div style="max-width:720px;display:flex;flex-direction:column;gap:24px">
+                  <sc-if value="{{ c.isGeneral }}" hint-placeholder-val="{{ true }}">
+                    <sc-for list="{{ p.groups }}" as="g" hint-placeholder-count="3">
+                      <div style="display:flex;flex-direction:column;gap:12px">
+                        <div style="font-size:16px;line-height:20px;font-weight:600">{{ g.title }}</div>
+                        <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 16px">
+                          <sc-for list="{{ g.fields }}" as="f" hint-placeholder-count="3">
+                            <div style="display:flex;flex-direction:column;gap:2px;min-width:0;grid-column:{{ f.col3 }}">
+                              <div style="font-size:13px;line-height:16px;color:var(--semantic-colors-foregrounds-foreground-secondary)">{{ f.label }}</div>
+                              <div style="font-size:15px;line-height:20px;overflow-wrap:anywhere;text-wrap:pretty">{{ f.value }}</div>
+                            </div>
+                          </sc-for>
+                        </div>
+                      </div>
+                    </sc-for>
+                  </sc-if>
+                  <sc-if value="{{ c.isList }}" hint-placeholder-val="{{ false }}">
+                    <div style="display:flex;flex-direction:column;gap:12px">
+                      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:28px">
+                        <div style="font-size:16px;line-height:20px;font-weight:600">{{ c.sec.title }}</div>
+                        <sc-if value="{{ c.sec.hasAction }}" hint-placeholder-val="{{ false }}"><x-import component-from-global-scope="AsyaWebDesign.Button" color="accent" variant="ghost" size="s" hint-size="150px,28px">{{ c.sec.action }}</x-import></sc-if>
+                      </div>
+                      <div style="display:flex;flex-direction:column">
+                        <sc-for list="{{ c.sec.items }}" as="it" hint-placeholder-count="2">
+                          <div style="display:flex;align-items:center;gap:16px;padding:12px 0;border-bottom:1px solid var(--semantic-colors-borders-border-normal-default)">
+                            <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px">
+                              <span style="font-size:15px;line-height:20px;text-wrap:pretty">{{ it.name }}</span>
+                              <span style="font-size:13px;line-height:16px;color:var(--semantic-colors-foregrounds-foreground-secondary)">{{ it.meta }}</span>
+                            </div>
+                            <sc-if value="{{ it.hasStatus }}" hint-placeholder-val="{{ false }}"><span style="flex:none;padding:2px 8px;border-radius:6px;font-size:13px;line-height:18px;white-space:nowrap;background:{{ it.statusBg }}">{{ it.status }}</span></sc-if>
+                            <sc-if value="{{ it.hasRight }}" hint-placeholder-val="{{ false }}"><span style="flex:none;white-space:nowrap;font-size:15px;line-height:20px;font-weight:500">{{ it.right }}</span></sc-if>
+                          </div>
+                        </sc-for>
+                      </div>
+                    </div>
+                  </sc-if>
+                </div>
+              </div>
+            </div>
+            <div style="flex:none;padding:12px 24px 16px;border-top:1px solid var(--semantic-colors-borders-border-normal-default);display:flex;justify-content:flex-end;gap:8px">
+              <x-import component-from-global-scope="AsyaWebDesign.Button" color="neutral" variant="secondary" hint-size="100px,40px">Закрыть</x-import>
+              <sc-if value="{{ fromCreate }}" hint-placeholder-val="{{ true }}"><x-import component-from-global-scope="AsyaWebDesign.Button" color="accent" variant="primary" hint-size="170px,40px">Выбрать пациента</x-import></sc-if>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+<section style="padding:0 48px 48px;display:flex;flex-direction:column;gap:24px">
+  <div style="display:flex;flex-direction:column;gap:4px">
+    <div style="font-size:24px;line-height:32px;font-weight:600">Доработка 1c</div>
+    <div style="font-size:14px;line-height:20px;color:var(--semantic-colors-foregrounds-foreground-secondary)">Важное вынесено в строку сигналов под ФИО, без дублирующей колонки. Сигнал открывает нужный раздел. Флаг «Договор не подписан» меняется в разделе «Медкарты», и сигналы пересчитываются.</div>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:48px;align-items:flex-start">
+    <div id="2a" style="display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;align-items:center;gap:10px"><span style="padding:2px 8px;border-radius:6px;background:var(--semantic-colors-backgrounds-bg-primary-default);color:#fff;font-size:14px;line-height:20px;font-weight:600">2a</span><span style="font-size:16px;line-height:20px;font-weight:600">Разделы слева + сигналы под ФИО</span></div>
+      <div data-screen-label="2a Разделы и сигналы" style="width:1440px;height:900px;display:flex;flex-direction:column;background:var(--semantic-colors-backgrounds-bg-main);border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.08)">
+        <div style="height:60px;flex:none;display:flex;align-items:center;padding:0 16px"><img src="assets/logo-kdf.svg" width="81" height="28" alt="Клиника Фомина" style="display:block"></div>
+        <div style="flex:1;min-height:0;display:flex;flex-direction:column;padding:4px 16px 16px">
+          <div style="width:100%;max-width:1040px;margin:0 auto 12px"><x-import component-from-global-scope="AsyaWebDesign.Breadcrumbs" items="{{ crumbs }}" hint-size="100%,20px"></x-import></div>
+          <div style="flex:1;min-height:0;width:100%;max-width:1040px;margin:0 auto;display:flex;flex-direction:column;background:var(--semantic-colors-backgrounds-bg-surface-level-1);border-radius:16px;overflow:hidden">
+            <div style="flex:none;padding:24px;display:flex;flex-direction:column;gap:4px;border-bottom:1px solid var(--semantic-colors-borders-border-normal-default)">
+              <div style="font-size:24px;line-height:32px;font-weight:600">{{ p.fio }}</div>
+              <div style="font-size:14px;line-height:20px;color:var(--semantic-colors-foregrounds-foreground-secondary)">{{ p.sub }}</div>
+              <sc-if value="{{ hasSignals }}" hint-placeholder-val="{{ true }}">
+                <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">
+                  <sc-for list="{{ signals }}" as="sg" hint-placeholder-count="3">
+                    <div onClick="{{ sg.go }}" style="display:flex;align-items:center;gap:6px;padding:4px 8px 4px 10px;border-radius:8px;cursor:pointer;font-size:14px;line-height:20px;background:{{ sg.bg }};transition:filter .12s" style-hover="filter:brightness(.95)">
+                      <span>{{ sg.label }}</span>
+                      <svg width="14" height="14" viewBox="0 0 24 24" style="flex:none;color:var(--semantic-colors-foregrounds-foreground-secondary)"><path fill="currentColor" d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6z"></path></svg>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+            </div>
+            <div style="flex:1;min-height:0;display:grid;grid-template-columns:240px minmax(0,1fr)">
+              <div style="border-right:1px solid var(--semantic-colors-borders-border-normal-default);padding:12px;display:flex;flex-direction:column;gap:2px;overflow:auto">
+                <sc-for list="{{ d.nav }}" as="n" hint-placeholder-count="6">
+                  <div onClick="{{ n.go }}" style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px;border-radius:8px;cursor:pointer;font-size:15px;line-height:20px;background:{{ n.bg }};font-weight:{{ n.fw }}" style-hover="background:var(--components-colors-table-bg-table-row-hover)">
+                    <span>{{ n.label }}</span><span style="font-size:13px;color:var(--semantic-colors-foregrounds-foreground-secondary)">{{ n.count }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="min-height:0;overflow:auto;padding:24px 32px">
+                <div style="max-width:720px;display:flex;flex-direction:column;gap:24px">
+                  <sc-if value="{{ d.isGeneral }}" hint-placeholder-val="{{ true }}">
+                    <sc-for list="{{ p.groups }}" as="g" hint-placeholder-count="3">
+                      <div style="display:flex;flex-direction:column;gap:12px">
+                        <div style="font-size:16px;line-height:20px;font-weight:600">{{ g.title }}</div>
+                        <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 16px">
+                          <sc-for list="{{ g.fields }}" as="f" hint-placeholder-count="3">
+                            <div style="display:flex;flex-direction:column;gap:2px;min-width:0;grid-column:{{ f.col3 }}">
+                              <div style="font-size:13px;line-height:16px;color:var(--semantic-colors-foregrounds-foreground-secondary)">{{ f.label }}</div>
+                              <div style="font-size:15px;line-height:20px;overflow-wrap:anywhere;text-wrap:pretty">{{ f.value }}</div>
+                            </div>
+                          </sc-for>
+                        </div>
+                      </div>
+                    </sc-for>
+                  </sc-if>
+                  <sc-if value="{{ d.isCards }}" hint-placeholder-val="{{ false }}">
+                    <div style="display:flex;flex-direction:column;gap:12px">
+                      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:28px">
+                        <div style="font-size:16px;line-height:20px;font-weight:600">Медицинские карты ({{ p.cardCount }})</div>
+                        <x-import component-from-global-scope="AsyaWebDesign.Button" color="accent" variant="ghost" size="s" hint-size="150px,28px">Создать медкарту</x-import>
+                      </div>
+                      <div style="display:flex;flex-direction:column">
+                        <sc-for list="{{ p.cards }}" as="c" hint-placeholder-count="2">
+                          <div style="display:flex;align-items:center;gap:16px;padding:6px 0;min-height:44px;box-sizing:border-box;border-bottom:1px solid var(--semantic-colors-borders-border-normal-default);font-size:15px;line-height:20px">
+                            <span style="flex:1;min-width:0;text-wrap:pretty">{{ c.org }}<span style="color:var(--semantic-colors-foregrounds-foreground-secondary);white-space:nowrap"> (№ {{ c.num }})</span></span>
+                            <div style="flex:none;display:flex;align-items:center;font-size:14px"><x-import component-from-global-scope="AsyaWebDesign.Checkbox" label="Договор не подписан" checked="{{ c.unsigned }}" onChange="{{ c.toggle }}" hint-size="180px,24px"></x-import></div>
+                          </div>
+                        </sc-for>
+                      </div>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ d.isOther }}" hint-placeholder-val="{{ false }}">
+                    <div style="display:flex;flex-direction:column;gap:12px">
+                      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:28px">
+                        <div style="font-size:16px;line-height:20px;font-weight:600">{{ d.sec.title }}</div>
+                        <sc-if value="{{ d.sec.hasAction }}" hint-placeholder-val="{{ false }}"><x-import component-from-global-scope="AsyaWebDesign.Button" color="accent" variant="ghost" size="s" hint-size="150px,28px">{{ d.sec.action }}</x-import></sc-if>
+                      </div>
+                      <div style="display:flex;flex-direction:column">
+                        <sc-for list="{{ d.sec.items }}" as="it" hint-placeholder-count="2">
+                          <div style="display:flex;align-items:center;gap:16px;padding:12px 0;border-bottom:1px solid var(--semantic-colors-borders-border-normal-default)">
+                            <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px">
+                              <span style="font-size:15px;line-height:20px;text-wrap:pretty">{{ it.name }}</span>
+                              <span style="font-size:13px;line-height:16px;color:var(--semantic-colors-foregrounds-foreground-secondary)">{{ it.meta }}</span>
+                            </div>
+                            <sc-if value="{{ it.hasStatus }}" hint-placeholder-val="{{ false }}"><span style="flex:none;padding:2px 8px;border-radius:6px;font-size:13px;line-height:18px;white-space:nowrap;background:{{ it.statusBg }}">{{ it.status }}</span></sc-if>
+                            <sc-if value="{{ it.hasRight }}" hint-placeholder-val="{{ false }}"><span style="flex:none;white-space:nowrap;font-size:15px;line-height:20px;font-weight:500">{{ it.right }}</span></sc-if>
+                          </div>
+                        </sc-for>
+                      </div>
+                    </div>
+                  </sc-if>
+                </div>
+              </div>
+            </div>
+            <div style="flex:none;padding:12px 24px 16px;border-top:1px solid var(--semantic-colors-borders-border-normal-default);display:flex;justify-content:flex-end;gap:8px">
+              <x-import component-from-global-scope="AsyaWebDesign.Button" color="neutral" variant="secondary" hint-size="100px,40px">Закрыть</x-import>
+              <sc-if value="{{ fromCreate }}" hint-placeholder-val="{{ true }}"><x-import component-from-global-scope="AsyaWebDesign.Button" color="accent" variant="primary" hint-size="170px,40px">Выбрать пациента</x-import></sc-if>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section style="padding:0 48px 48px;display:flex;flex-direction:column;gap:24px">
+  <div style="display:flex;flex-direction:column;gap:4px">
+    <div style="font-size:24px;line-height:32px;font-weight:600">2a на всю ширину</div>
+    <div style="font-size:14px;line-height:20px;color:var(--semantic-colors-foregrounds-foreground-secondary)">Карточка занимает всю ширину экрана, как в прототипе сейчас. Содержимое раздела ограничено 1040 px, поля в 4 колонки.</div>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:48px;align-items:flex-start">
+    <div id="3a" style="display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;align-items:center;gap:10px"><span style="padding:2px 8px;border-radius:6px;background:var(--semantic-colors-backgrounds-bg-primary-default);color:#fff;font-size:14px;line-height:20px;font-weight:600">3a</span><span style="font-size:16px;line-height:20px;font-weight:600">Разделы слева + сигналы, на всю ширину</span></div>
+      <div data-screen-label="3a На всю ширину" style="width:1440px;height:900px;display:flex;flex-direction:column;background:var(--semantic-colors-backgrounds-bg-main);border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.08)">
+        <div style="height:60px;flex:none;display:flex;align-items:center;padding:0 16px"><img src="assets/logo-kdf.svg" width="81" height="28" alt="Клиника Фомина" style="display:block"></div>
+        <div style="flex:1;min-height:0;display:flex;flex-direction:column;padding:4px 16px 16px">
+          <div style="margin-bottom:12px"><x-import component-from-global-scope="AsyaWebDesign.Breadcrumbs" items="{{ crumbs }}" hint-size="100%,20px"></x-import></div>
+          <div style="flex:1;min-height:0;display:flex;flex-direction:column;background:var(--semantic-colors-backgrounds-bg-surface-level-1);border-radius:16px;overflow:hidden">
+            <div style="flex:none;padding:24px;display:flex;flex-direction:column;gap:4px;border-bottom:1px solid var(--semantic-colors-borders-border-normal-default)">
+              <div style="font-size:24px;line-height:32px;font-weight:600">{{ p.fio }}</div>
+              <div style="font-size:14px;line-height:20px;color:var(--semantic-colors-foregrounds-foreground-secondary)">{{ p.sub }}</div>
+              <sc-if value="{{ hasSignals }}" hint-placeholder-val="{{ true }}">
+                <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">
+                  <sc-for list="{{ signalsE }}" as="sg" hint-placeholder-count="3">
+                    <div onClick="{{ sg.go }}" style="display:flex;align-items:center;gap:6px;padding:4px 8px 4px 10px;border-radius:8px;cursor:pointer;font-size:14px;line-height:20px;background:{{ sg.bg }};transition:filter .12s" style-hover="filter:brightness(.95)">
+                      <span>{{ sg.label }}</span>
+                      <svg width="14" height="14" viewBox="0 0 24 24" style="flex:none;color:var(--semantic-colors-foregrounds-foreground-secondary)"><path fill="currentColor" d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6z"></path></svg>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+            </div>
+            <div style="flex:1;min-height:0;display:grid;grid-template-columns:240px minmax(0,1fr)">
+              <div style="border-right:1px solid var(--semantic-colors-borders-border-normal-default);padding:12px;display:flex;flex-direction:column;gap:2px;overflow:auto">
+                <sc-for list="{{ e.nav }}" as="n" hint-placeholder-count="6">
+                  <div onClick="{{ n.go }}" style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px;border-radius:8px;cursor:pointer;font-size:15px;line-height:20px;background:{{ n.bg }};font-weight:{{ n.fw }}" style-hover="background:var(--components-colors-table-bg-table-row-hover)">
+                    <span>{{ n.label }}</span><span style="font-size:13px;color:var(--semantic-colors-foregrounds-foreground-secondary)">{{ n.count }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="min-height:0;overflow:auto;padding:24px 32px">
+                <div style="max-width:1040px;display:flex;flex-direction:column;gap:24px">
+                  <sc-if value="{{ e.isGeneral }}" hint-placeholder-val="{{ true }}">
+                    <sc-for list="{{ p.groups }}" as="g" hint-placeholder-count="3">
+                      <div style="display:flex;flex-direction:column;gap:12px">
+                        <div style="font-size:16px;line-height:20px;font-weight:600">{{ g.title }}</div>
+                        <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px 16px">
+                          <sc-for list="{{ g.fields }}" as="f" hint-placeholder-count="4">
+                            <div style="display:flex;flex-direction:column;gap:2px;min-width:0;grid-column:{{ f.col4 }}">
+                              <div style="font-size:13px;line-height:16px;color:var(--semantic-colors-foregrounds-foreground-secondary)">{{ f.label }}</div>
+                              <div style="font-size:15px;line-height:20px;overflow-wrap:anywhere;text-wrap:pretty">{{ f.value }}</div>
+                            </div>
+                          </sc-for>
+                        </div>
+                      </div>
+                    </sc-for>
+                  </sc-if>
+                  <sc-if value="{{ e.isCards }}" hint-placeholder-val="{{ false }}">
+                    <div style="display:flex;flex-direction:column;gap:12px">
+                      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:28px">
+                        <div style="font-size:16px;line-height:20px;font-weight:600">Медицинские карты ({{ p.cardCount }})</div>
+                        <x-import component-from-global-scope="AsyaWebDesign.Button" color="accent" variant="ghost" size="s" hint-size="150px,28px">Создать медкарту</x-import>
+                      </div>
+                      <div style="display:flex;flex-direction:column">
+                        <sc-for list="{{ p.cards }}" as="c" hint-placeholder-count="2">
+                          <div style="display:flex;align-items:center;gap:16px;padding:6px 0;min-height:44px;box-sizing:border-box;border-bottom:1px solid var(--semantic-colors-borders-border-normal-default);font-size:15px;line-height:20px">
+                            <span style="flex:1;min-width:0;text-wrap:pretty">{{ c.org }}<span style="color:var(--semantic-colors-foregrounds-foreground-secondary);white-space:nowrap"> (№ {{ c.num }})</span></span>
+                            <div style="flex:none;display:flex;align-items:center;font-size:14px"><x-import component-from-global-scope="AsyaWebDesign.Checkbox" label="Договор не подписан" checked="{{ c.unsigned }}" onChange="{{ c.toggle }}" hint-size="180px,24px"></x-import></div>
+                          </div>
+                        </sc-for>
+                      </div>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ e.isOther }}" hint-placeholder-val="{{ false }}">
+                    <div style="display:flex;flex-direction:column;gap:12px">
+                      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:28px">
+                        <div style="font-size:16px;line-height:20px;font-weight:600">{{ e.sec.title }}</div>
+                        <sc-if value="{{ e.sec.hasAction }}" hint-placeholder-val="{{ false }}"><x-import component-from-global-scope="AsyaWebDesign.Button" color="accent" variant="ghost" size="s" hint-size="150px,28px">{{ e.sec.action }}</x-import></sc-if>
+                      </div>
+                      <div style="display:flex;flex-direction:column">
+                        <sc-for list="{{ e.sec.items }}" as="it" hint-placeholder-count="2">
+                          <div style="display:flex;align-items:center;gap:16px;padding:12px 0;border-bottom:1px solid var(--semantic-colors-borders-border-normal-default)">
+                            <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px">
+                              <span style="font-size:15px;line-height:20px;text-wrap:pretty">{{ it.name }}</span>
+                              <span style="font-size:13px;line-height:16px;color:var(--semantic-colors-foregrounds-foreground-secondary)">{{ it.meta }}</span>
+                            </div>
+                            <sc-if value="{{ it.hasStatus }}" hint-placeholder-val="{{ false }}"><span style="flex:none;padding:2px 8px;border-radius:6px;font-size:13px;line-height:18px;white-space:nowrap;background:{{ it.statusBg }}">{{ it.status }}</span></sc-if>
+                            <sc-if value="{{ it.hasRight }}" hint-placeholder-val="{{ false }}"><span style="flex:none;white-space:nowrap;font-size:15px;line-height:20px;font-weight:500">{{ it.right }}</span></sc-if>
+                          </div>
+                        </sc-for>
+                      </div>
+                    </div>
+                  </sc-if>
+                </div>
+              </div>
+            </div>
+            <div style="flex:none;padding:12px 24px 16px;border-top:1px solid var(--semantic-colors-borders-border-normal-default);display:flex;justify-content:flex-end;gap:8px">
+              <x-import component-from-global-scope="AsyaWebDesign.Button" color="neutral" variant="secondary" hint-size="100px,40px">Закрыть</x-import>
+              <sc-if value="{{ fromCreate }}" hint-placeholder-val="{{ true }}"><x-import component-from-global-scope="AsyaWebDesign.Button" color="accent" variant="primary" hint-size="170px,40px">Выбрать пациента</x-import></sc-if>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</x-import></x-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;fromCreate&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;label&quot;:&quot;Открыта из создания пациента&quot;}}">
+class Component extends DCLogic {
+  state = { a: 'general', b: 'general', c: 'general', d: 'general', e: 'general', unsigned: { 0: false, 1: true } };
+  renderVals() {
+    const st = this.state, OK = 'var(--semantic-colors-backgrounds-bg-system-success-light)', WARN = 'var(--semantic-colors-backgrounds-bg-system-warning-light)';
+    const MAIN = 'var(--semantic-colors-foregrounds-foreground-main)';
+    const F = (label, value, span) => ({ label, value, col4: span ? 'span ' + Math.min(span, 4) : 'auto', col3: span ? 'span ' + Math.min(span, 3) : 'auto' });
+    const cardsRaw = [{ org: 'Москва · Клиника на Мичуринском', num: '004512' }, { org: 'Пермь', num: '004549' }];
+    const cards = cardsRaw.map((c, i) => ({ ...c, unsigned: !!st.unsigned[i], toggle: () => this.setState(s => ({ unsigned: { ...s.unsigned, [i]: !s.unsigned[i] } })) }));
+    const p = {
+      fio: 'Иванов Петр Алексеевич', sub: '05.10.1958 (68 лет)', cards, cardCount: cards.length,
+      groups: [
+        { title: 'Контактные данные', fields: [F('Номер телефона', '+7 (917) 345-67-89'), F('Email', 'p.ivanov54@mail.ru'), F('Адрес по прописке', 'г. Москва, Мичуринский пр-т, д. 14, кв. 87', 2)] },
+        { title: 'Общая информация', fields: [F('Пол', 'Мужской'), F('Гражданство', 'Российская Федерация'), F('Социальный статус', 'Пенсионер'), F('Дата регистрации', '14.03.2023')] },
+        { title: 'Паспорт', fields: [F('Серия', '4512'), F('Номер', '345678'), F('Дата выдачи', '12.06.2010'), F('Код подразделения', '770-112'), F('Кем выдан', 'ГУ МВД России по г. Москве', 2), F('Запись о паспортных данных действует с', '14.03.2023', 2)] },
+        { title: 'Другие документы', fields: [F('СНИЛС', '112-233-445 95'), F('Полис ОМС', '7750 0000 1234 5678')] }
+      ]
+    };
+    const unsignedAny = cards.some(c => c.unsigned);
+    const S = {
+      cards: { title: 'Медицинские карты (2)', action: 'Создать медкарту', items: cards.map(c => ({ name: c.org, meta: '№ ' + c.num, status: c.unsigned ? 'Договор не подписан' : 'Договор подписан', statusBg: c.unsigned ? WARN : OK })) },
+      contracts: { title: 'Договоры (2)', action: 'Создать договор', items: cards.map(c => ({ name: 'Договор на оказание платных медицинских услуг', meta: '№ ПМУ-' + c.num + ' · ' + c.org, status: c.unsigned ? 'Не подписан' : 'Действует', statusBg: c.unsigned ? WARN : OK })) },
+      deposits: { title: 'Депозит · 3 200 ₽', action: 'Пополнить', items: [{ name: 'Пополнение депозита', meta: '14.10.2026 · Клиника на Мичуринском', right: '+ 7 500 ₽' }, { name: 'Оплата приема терапевта', meta: '16.10.2026 · Клиника на Мичуринском', right: '− 2 800 ₽' }, { name: 'Оплата анализов', meta: '18.10.2026 · Клиника на Мичуринском', right: '− 1 500 ₽' }] },
+      relatives: { title: 'Родственники и представители (1)', action: 'Добавить', items: [{ name: 'Иванова Галина Петровна', meta: 'Супруга · +7 (917) 345-11-02' }] },
+      docs: { title: 'Документы (4)', action: '', items: [['Информированное добровольное согласие на медицинское вмешательство', !unsignedAny], ['Согласие на обработку персональных данных', true], ['Договор на оказание платных медицинских услуг', !unsignedAny], ['Анкета пациента', true]].map(([name, ok]) => ({ name, meta: 'Клиника на Мичуринском · ' + (ok ? 'подписан 12.03.2026' : 'сформирован 20.10.2026'), status: ok ? 'Подписан' : 'Ожидает подписи', statusBg: ok ? OK : WARN })) }
+    };
+    Object.values(S).forEach(s => { s.hasAction = !!s.action; s.items.forEach(it => { it.hasStatus = !!it.status; it.hasRight = !!it.right; }); });
+    const keys = [['general', 'Общая информация'], ['cards', 'Медкарты'], ['contracts', 'Договоры'], ['deposits', 'Депозиты'], ['relatives', 'Родственники'], ['docs', 'Документы']];
+    const counts = { general: '', cards: '2', contracts: '2', deposits: '', relatives: '1', docs: '4' };
+    const mk = k => ({ tab: st[k], isGeneral: st[k] === 'general', isList: st[k] !== 'general', sec: S[st[k]] || S.cards, setTab: (e, v) => this.setState({ [k]: typeof e === 'string' ? e : v }) });
+    const c = mk('c');
+    c.nav = keys.map(([value, label]) => ({ label, count: counts[value], bg: st.c === value ? 'var(--components-colors-table-bg-table-row-selected-default)' : 'transparent', fw: st.c === value ? 500 : 400, go: () => this.setState({ c: value }) }));
+    const toSign = cards.filter(x => x.unsigned).length * 2;
+    const d = mk('d'); d.isCards = st.d === 'cards'; d.isOther = st.d !== 'general' && st.d !== 'cards';
+    d.nav = keys.map(([value, label]) => ({ label, count: counts[value], bg: st.d === value ? 'var(--components-colors-table-bg-table-row-selected-default)' : 'transparent', fw: st.d === value ? 500 : 400, go: () => this.setState({ d: value }) }));
+    const e = mk('e'); e.isCards = st.e === 'cards'; e.isOther = st.e !== 'general' && st.e !== 'cards';
+    e.nav = keys.map(([value, label]) => ({ label, count: counts[value], bg: st.e === value ? 'var(--components-colors-table-bg-table-row-selected-default)' : 'transparent', fw: st.e === value ? 500 : 400, go: () => this.setState({ e: value }) }));
+    const nUns = cards.filter(x => x.unsigned).length;
+    const signals = [
+      nUns && { label: nUns === 1 ? 'Договор не подписан' : 'Не подписано договоров: ' + nUns, bg: WARN, go: () => this.setState({ d: 'cards' }) },
+      toSign && { label: toSign + ' ' + (toSign < 5 ? 'документа' : 'документов') + ' на подпись', bg: WARN, go: () => this.setState({ d: 'docs' }) },
+      { label: 'Депозит 3 200 ₽', bg: 'var(--semantic-colors-backgrounds-bg-surface-level-2)', go: () => this.setState({ d: 'deposits' }) }
+    ].filter(Boolean);
+    const signalsE = signals.map((s, i) => ({ ...s, go: () => this.setState({ e: [nUns && 'cards', toSign && 'docs', 'deposits'].filter(Boolean)[i] }) }));
+    return {
+      fromCreate: this.props.fromCreate ?? true,
+      crumbs: (this.props.fromCreate ?? true) ? [{ label: 'Справочник пациентов' }, { label: 'Создание пациента' }, { label: p.fio }] : [{ label: 'Справочник пациентов' }, { label: p.fio }],
+      p, tabs: keys.map(([value, label]) => ({ value, label })),
+      tabsB: keys.filter(([v]) => v !== 'cards').map(([value, label]) => ({ value, label })),
+      a: mk('a'), b: mk('b'), c, d, e, signals, signalsE, hasSignals: signals.length > 0,
+      summary: [
+        { label: 'Депозит', value: '3 200 ₽', color: MAIN, goB: () => this.setState({ b: 'deposits' }) },
+        { label: 'Договоры', value: '2', color: MAIN, goB: () => this.setState({ b: 'contracts' }) },
+        { label: 'Документы на подпись', value: String(toSign), color: toSign ? 'var(--semantic-colors-foregrounds-foreground-primary-default)' : MAIN, goB: () => this.setState({ b: 'docs' }) }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
